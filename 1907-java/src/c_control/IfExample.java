@@ -74,7 +74,44 @@ public class IfExample {
 		return r;
 	}
 	
+	/*
+	 * 성적이 0~100일 때만 60이상이면 '합격' 60미만이면 '불합격'
+	 * 을 출력하고, 성적이 범위 밖이면'성적오류'를 출력하시오.
+	 */
 	void type4() {
+		int score = 70;
+		String result = "";
+		
+		if( score >=0 && score <=100 ) {
+			if( score >= 60 ) {
+				result = "합격";
+			}
+			else {
+				result = "불합격";
+			}
+		}else {
+			result = "성적오류";
+		}
+		System.out.println(result);
+		/*
+		int kor = 0;
+		int eng = 0;
+		int math = 0;
+		int score = 0;
+		
+		if( score >= 100 ) {
+			if( kor >= 60 ) {
+				System.out.println("합격");
+			}
+			if( eng >= 60 ) {
+				System.out.println("합격");
+			}
+			if( math >=60 ) {
+				System.out.println("합격");
+			}			
+		}else {
+			System.out.println("성적오류");
+		}*/
 		
 	}
 	
@@ -84,6 +121,7 @@ public class IfExample {
 		String m = obj.type2();
 		char r = obj.type3();
 		System.out.println(r);
+		obj.type4();
 	}
 
 }
