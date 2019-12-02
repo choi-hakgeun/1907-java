@@ -11,7 +11,11 @@ public class Main {
 	//	new Switch2();
 	//	new Switch3();
 	//  new	SwitchEx();
-		new ForExam1();
+	//  new ForExam1();
+	//  new ForExam2();
+	//	new ForExam3();
+	//	new ForExam5();
+		new ForExam6();
 	}
 
 }
