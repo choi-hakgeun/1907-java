@@ -9,8 +9,9 @@ public class Main {
 	//	new Exam2();
 	//	new SwitchExample();
 	//	new Switch2();
-		new Switch3();
+	//	new Switch3();
 	//  new	SwitchEx();
+		new ForExam1();
 	}
 
 }
