@@ -23,7 +23,7 @@ public class Main {
 	//	new WhileExam2();
 	//	new WhileExam3();
 	//	new DoWhileExam1();
-		new Exercise07();
+	//	new Exercise07();
 	}
 
 }

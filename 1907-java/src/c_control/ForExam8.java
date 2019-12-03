@@ -24,19 +24,47 @@ package c_control;
 public class ForExam8 {
 	ForExam8() {
 		//1000개 난수출력
-		String str = "";
-		int s1 = 0; 
+		
+		int s1 = 0, s10 = 0, s20 = 0, s30 = 0, s40 = 0, s50 = 0, s60 = 0, s70 = 0, s80 = 0, s90 = 0; 
 		
 		for(int i = 0; i < 1000; i++) {
 			int num = (int)(Math.random()*100)+1;
 			
 			if(num < 10) {				
 				s1++;
+			}else if(num < 20) {
+				s10++;
+			}else if(num < 30) {
+				s20++;
+			}else if(num < 40) {
+				s30++;
+			}else if(num < 50) {
+			    s40++;
+			}else if(num < 60) {
+				s50++;
+			}else if(num < 70) {
+				s60++;
+			}else if(num < 80) {
+				s70++;				
+			}else if(num < 90) {
+				s80++;
+			}else {
+				s90++;
 			}
-			System.out.println(s1);				
 		}
+		System.out.println("단자리 : " + s1 + "개");
+		System.out.println("10의 자리 : " + s10 + "개");
+		System.out.println("20의 자리 : " + s20 + "개");
+		System.out.println("30의 자리 : " + s30 + "개");
+		System.out.println("40의 자리 : " + s40 + "개");
+		System.out.println("50의 자리 : " + s50 + "개");
+		System.out.println("60의 자리 : " + s60 + "개");
+		System.out.println("70의 자리 : " + s70 + "개");
+		System.out.println("80의 자리 : " + s80 + "개");
+		System.out.println("90의 자리 : " + s90 + "개");
 	}
 }
+//for(int a = 0; a < 100; a = a+10) 10의 자리 반복
 			//int a = num+i; //잘못된 코드 i+를 하지 않아도 1000개가 출력됨
 			//System.out.print(num + "  "); //난수1000개출력확인
 			
