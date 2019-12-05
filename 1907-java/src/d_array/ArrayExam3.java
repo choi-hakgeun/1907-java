@@ -10,7 +10,13 @@ public class ArrayExam3 {
 		// 동명은 없음
 		// 해당블럭 맨 상단에 배열을 정의하는것이 정석
 		String[] names = new String[] { "A", "B", "C", "D", "E" };
-		int[][] s = new int[][] { { 10, 27 }, { 20, 30 }, { 30, 40 }, { 40, 50 }, { 50, 60 } };
+		int[][] s = new int[][] { 
+			{ 10, 27 }, 
+			{ 20, 30 }, 
+			{ 30, 40 }, 
+			{ 40, 50 }, 
+			{ 50, 60 } 
+		};
 		int tot = 0;
 		double avg = 0d;
 
@@ -49,9 +55,9 @@ public class ArrayExam3 {
 			int p = -1;
 
 			for (int i = 0; i < s.length; i++) {
-				if (names[i].equals(findstr)) {
-					p = i;
-					tot = s[i][0] + s[i][1];
+				if (names[i].equals(findstr)) { //네임의 i번째가 사용자가 입력한 검색어와 똑같니
+					p = i; //
+					tot = s[i][0] + s[i][1];//찾은 위치의 첫번째 컬럼과 두번째 컬럼값을 구함
 					avg = tot / 2.0; // (double)tot / s[i].length
 					System.out.println("---검색결과--");
 					System.out.println("성명 : " + names[i]);
@@ -75,7 +81,11 @@ public class ArrayExam3 {
 	// 정수형 2차원 배열을 선언하고 초기값을 4행 3열의 데이터를 대입
 	public void test1() {
 		int[][] s = new int[][] { // 데이터가 있다면 형식만 써주고 중괄호, 기본형
-				{ 1, 2, 3 }, { 2, 3, 7 }, { 4, 5, 6 }, { 7, 8, 9 } };
+				{ 1, 2, 3 },
+				{ 2, 3, 7 }, 
+				{ 4, 5, 6 }, 
+				{ 7, 8, 9 } 
+				};
 
 		// 배열의 행수
 		System.out.println("행수 : " + s.length);
