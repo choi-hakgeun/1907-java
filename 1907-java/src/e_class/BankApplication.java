@@ -25,7 +25,7 @@ public class BankApplication {
 					deposit();					
 				}else if(selectNo == 4) {
 					withdraw();
-				}else if(selsctNo == 5) {
+				}else if(selectNo == 5) {
 					run = false;
 				}
 			}
@@ -35,7 +35,7 @@ public class BankApplication {
 		//계좌생성하기
 		private static void createAccount() {
 			for(int i = 0 ; i < accountArray.length ; i++) {
-			accountArray[i].ano;	
+				
 			}			
 			
 		}
@@ -44,16 +44,16 @@ public class BankApplication {
 			
 		}
 		//예금하기
-		private static void deposit(int atm) {
+		private static void deposit() {
 			System.out.println("------------------------");
 			System.out.println("예금");
 			System.out.println("------------------------");
 			System.out.print("계좌번호 : ");
-			String a = scanner.nextLine();  //계좌번호입력
+			String ano = scanner.nextLine();  //계좌번호입력
 			System.out.print("예금액 : ");
 			int balance = scanner.nextInt();
 			
-			Account act = findAccount(a);
+			Account act = findAccount(ano);
 			
 		}
 		//출금하기
@@ -66,8 +66,8 @@ public class BankApplication {
 			Account act = null;
 			for(int i = 0 ; i < accountArray.length ; i++) {
 				if(accountArray[i]!=null) {
-					String a = accountArray[i].getAno();					
-					if(a.equals(ano)) {
+					String getAno = accountArray[i].getAno();					
+					if(getAno.equals(ano)) {
 						act = accountArray[i].getOwner();
 						break;
 					}
