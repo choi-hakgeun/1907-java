@@ -6,10 +6,10 @@ public class SuperAirPlaneExam {
 		SuperAirPlane s = new SuperAirPlane();
 		s.takeoff();
 		s.fly();
-		s.flyMode = SuperAirPlane.SUPERSONIC;
-		s.fly();
-		s.flyMode = SuperAirPlane.NORMAL;
-		s.fly();
+		s.flyMode = SuperAirPlane.SUPERSONIC;//2
+		s.fly();//2
+		s.flyMode = SuperAirPlane.NORMAL;//1
+		s.fly();//1
 		s.land();
 	}
 
