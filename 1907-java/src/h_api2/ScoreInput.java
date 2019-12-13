@@ -1,4 +1,4 @@
-package h_api;
+package h_api2;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -20,23 +20,29 @@ public class ScoreInput extends JPanel {
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
-	private JTextField irum;
-	private JTextField snoText;
-	private JTextField scoreText;
+	private JTextField mName;
+	private JTextField sno;
+	private JTextField score;
 	private JButton input;
+	public JLabel status;
 
 	/**
 	 * Create the panel.
 	 */
+	public ScoreInput(JLabel status) {
+		this();
+		this.status = status;
+		
+	}
 	public ScoreInput() {
 		setLayout(null);
 		add(getLblNewLabel());
 		add(getLblNewLabel_1());
 		add(getLblNewLabel_2());
 		add(getLblNewLabel_3());
-		add(getIrum());
-		add(getSnoText());
-		add(getScoreText());
+		add(getMName());
+		add(getSno());
+		add(getScore());
 		add(getInput());
 
 	}
@@ -80,41 +86,50 @@ public class ScoreInput extends JPanel {
 		}
 		return lblNewLabel_3;
 	}
-	private JTextField getIrum() {
-		if (irum == null) {
-			irum = new JTextField();
-			irum.setBounds(107, 72, 211, 22);
-			irum.setColumns(10);
+	private JTextField getMName() {
+		if (mName == null) {
+			mName = new JTextField();
+			mName.setBounds(107, 72, 211, 22);
+			mName.setColumns(10);
 		}
-		return irum;
+		return mName;
 	}
-	private JTextField getSnoText() {
-		if (snoText == null) {
-			snoText = new JTextField();
-			snoText.setBounds(105, 106, 213, 22);
-			snoText.setColumns(10);
+	private JTextField getSno() {
+		if (sno == null) {
+			sno = new JTextField();
+			sno.setBounds(105, 106, 213, 22);
+			sno.setColumns(10);
 		}
-		return snoText;
+		return sno;
 	}
-	private JTextField getScoreText() {
-		if (scoreText == null) {
-			scoreText = new JTextField();
-			scoreText.setBounds(107, 140, 211, 22);
-			scoreText.setColumns(10);
+	private JTextField getScore() {
+		if (score == null) {
+			score = new JTextField();
+			score.setBounds(107, 140, 211, 22);
+			score.setColumns(10);
 		}
-		return scoreText;
+		return score;
 	}
 	private JButton getInput() {//int sno, String name, int score
 		if (input == null) {
 			input = new JButton("\uC131\uC801\uC785\uB825");//성적입력
 			input.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//모든 항목이 입력되었는가 체크
-					if(!irum.getText().equals("") && !snoText.getText().equals("") && !scoreText.getText().equals("")) {
+					int no = Integer.parseInt(sno.getText());
+					String irum = mName.getText();
+					int s = Integer.parseInt(score.getText());			
+					
+					Student std = new Student(no, irum, s);
+					StudentApp.student[StudentApp.count] = std;
+					StudentApp.count++;
+					status.setText(StudentApp.count + "번째의 성적이 추가됨");
+					
+					/*//모든 항목이 입력되었는가 체크
+					if(!mName.getText().equals("") && !sno.getText().equals("") && !score.getText().equals("")) {
 						
 					try {
 						// 계좌번호의 중복 여부 체크
-						for(int i = 0 ; i<Bank.count ; i++) {
+						for(int i = 0 ; i<Student.count	; i++) {
 							Account a = Bank.ac[i];
 							if(a.getsNo().equals(sno.getText())) {
 								throw new IOException("계좌번호가 중복되었습니다.");
@@ -144,7 +159,7 @@ public class ScoreInput extends JPanel {
 					}else {
 						status.setText("입력항목을 확인하세요");
 						
-					}
+					}*/
 				}
 			});
 			input.setBounds(107, 172, 211, 24);
