@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 public class StudentComp implements Comparator<Student>{
 	char flag = 'n'; //n이면 학번순, s이면 성적순으로 정렬
+	
 	public StudentComp(char flag) {
 		this.flag = flag;
 	}
