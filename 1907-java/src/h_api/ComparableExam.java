@@ -13,7 +13,9 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collections;
 import java.awt.event.ActionEvent;
 
 public class ComparableExam extends JFrame {
@@ -41,6 +43,85 @@ public class ComparableExam extends JFrame {
 				}
 			}
 		});
+	}
+	public void sortNum() {//숫자정렬
+		String [] temp = textField.getText().split(",");
+		Integer [] intArray = new Integer[temp.length]; //int 형을 Integer형으로 바꿔야함.
+		for(int i = 0; i<temp.length ; i++) {
+			intArray[i] = Integer.parseInt(temp[i]);
+		}
+		Arrays.sort(intArray);//오름차순정렬
+		
+		StringBuilder sb = new StringBuilder(1024);
+		for(int i = 0; i<intArray.length; i++) {
+			String str = String.format("[%2d] = %s\n", i, intArray[i]);
+			sb.append(str);
+		}
+		
+		//how 1 (bubble sort 방법으로 내림차 정렬)
+		boolean sort = true;
+		int lastIndex = intArray.length-1;
+		while(sort) {
+			sort = false;
+			for(int i = 0; i<lastIndex; i++) {
+				if(intArray[i] < intArray[i+1]) {
+					int t = intArray[i];
+					intArray[i] = intArray[i+1];
+					intArray[i+1] = t;
+					sort = true;
+				}
+			}
+			lastIndex--;
+		}//end of while
+		sb.append("\n\n버블소트 내림차순 결과...........\n\n");
+		
+		for(int i = 0; i<intArray.length; i++) {
+			String str = String.format("[%2d] = %s\n", i, intArray[i]);
+			sb.append(str);
+			}
+		
+		//how 2 java API
+		//원본이 내림차순 정렬되었기 때문에 reverse하면 다시 오름차순
+		Collections.reverse(Arrays.asList(intArray));//asList : 배열을 리스트처럼 사용
+		
+		sb.append("\n\n Java API를 사용한 reverse\n\n");
+		for(int i = 0; i<intArray.length; i++) {
+			String str = String.format("[%2d] = %s\n", i, intArray[i]);
+			sb.append(str);
+			}
+		
+		
+		textArea.setText(sb.toString());
+	}
+	public void sortStr() {//문자정렬
+		String[] temp = textField.getText().split(",");
+		Arrays.sort(temp);
+		
+		textArea.setText("");
+		for(int i = 0; i<temp.length; i++) {
+			textArea.append(i + "=" + temp[i] + "\n");
+		}
+		
+		textArea.append("\n\n java API를 사용한 내림차순 \n\n");
+		Arrays.sort(temp, Collections.reverseOrder());
+		for(int i = 0; i<temp.length; i++) {
+			textArea.append(i + "=" + temp[i] + "\n");
+		}
+	}
+	public void sortObj() {//object정렬
+		String[]temp = textField.getText().split(",");
+		 Score[] sArray = new Score[temp.length];
+		 
+		for(int i = 0; i<temp.length ; i++) {
+			sArray[i] = new Score(temp[i]);
+		}
+		Collections.sort(Arrays.asList(sArray));
+		Collections.reverse(Arrays.asList(sArray));
+		
+		textArea.setText("");
+		for(int i = 0; i<sArray.length; i++) {
+			textArea.append(sArray[i].toString());
+		}
 	}
 
 	/**
@@ -86,18 +167,7 @@ public class ComparableExam extends JFrame {
 			btnNewButton = new JButton("\uC22B\uC790\uC815\uB82C");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {		
-					String [] str = textField.getText().split(",");
-					int [] num = new int[str.length];					
-					String r = "Split................\n";
-					for(int i = 0; i<num.length ; i++) {
-						num[i] = Integer.parseInt(str[i]);
-					}
-					Arrays.sort(num);
-					for(int j = 0; j<num.length; j++) {
-						r += num[j]+"\n";
-					}
-					
-					textArea.setText(r);	
+					sortNum();	
 				}
 			});
 			btnNewButton.setBounds(33, 31, 97, 23);
@@ -109,29 +179,21 @@ public class ComparableExam extends JFrame {
 			btnNewButton_1 = new JButton("\uBB38\uC790\uC815\uB82C");
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String [] num = textField.getText().split(",");
-					Arrays.sort(num);
-					String r = "";					
-					 String temp = "";
-					 for(int i=0 ; i<num.length-1 ; i++) {//기준
-						 for(int j = (i+1); j<num.length ; j++) {//대상
-							 if( num[i].compareTo(num[j]) > 0 ) {//swap
-								 temp = num[i];
-								 num[i] = num[j];
-								 num[j] = temp;
-							 }//if
-						 }//j
-					 }//i
-					textArea.setText(num);
+					sortStr();
 				}
 			});
 			btnNewButton_1.setBounds(163, 31, 97, 23);
 		}
 		return btnNewButton_1;
 	}
-	private JButton getBtnNewButton_2() {
+	private JButton getBtnNewButton_2() {//객체정렬
 		if (btnNewButton_2 == null) {
 			btnNewButton_2 = new JButton("\uAC1D\uCCB4\uC815\uB82C");
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					sortObj();	
+				}
+			});
 			btnNewButton_2.setBounds(293, 31, 97, 23);
 		}
 		return btnNewButton_2;
