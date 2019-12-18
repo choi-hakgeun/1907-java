@@ -8,6 +8,8 @@ import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Objects;
 
 import javax.swing.JScrollPane;
@@ -54,7 +56,7 @@ public class BoardSearch extends JInternalFrame {
    }
    
    public void BoardList() {
-      BoardVo temp = null;
+      /*BoardVo temp = null;
       int result = 0;
       for(int i = 0; i<BoardMain.count-1; i++) {
          for(int j=(i+1); j<BoardMain.count; j++) {
@@ -67,7 +69,9 @@ public class BoardSearch extends JInternalFrame {
                BoardMain.data[j] = temp;
             } // if
          } // j
-      } // i
+      } // i*/      
+	   Collections.sort(Arrays.asList(BoardMain.data), new BoardComparator());
+      
       textArea.setText("");
       for(int i=0; i<BoardMain.count;i++) {
          textArea.append(BoardMain.data[i].toString() + "\n");
