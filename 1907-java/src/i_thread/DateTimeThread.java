@@ -3,33 +3,51 @@ package i_thread;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateTimeThread extends Thread{
+import javax.swing.JTextField;
+
+public class DateTimeThread extends Thread {
 	private boolean stop;
-	Date now = new Date();
-	String ti;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E)hh:mm:ss");
+	private String ti;
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E)hh:mm:ss");
+	private JTextField textField;
+
+	public DateTimeThread() {}
+
+	
+
+	public String getTi() {
+		return ti;
+	}
+	public void setTi(String ti) {
+		this.ti = ti;
+	}
+	
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+
 	public void setStop(boolean stop) {
 		this.stop = stop;
 	}
+
 	public void run() {
-		while(!stop) {
-			//PrintThread printTread = new PrintThread();
-			//printThread.start();			
-			try {Thread.sleep(1000);}catch(InterruptedException e) {}
+		while (!stop) {
+			// PrintThread printThread = new PrintThread();
+			// printThread.start();
+			Date now = new Date();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+			}
 			ti = sdf.format(now).toString();
-			System.out.println(ti);
+			textField.setText(ti);
 		}
-		
-		/*while(!stop) {
-			try {Thread.sleep(1);}catch(InterruptedException e) {}
-			
-		}*/
-	}
-	
-	
-	public static void main(String[] args) {	
-		DateTimeThread a = new DateTimeThread();
-		a.run();		
+
+		/*
+		 * while(!stop) { try {Thread.sleep(1);}catch(InterruptedException e) {}
+		 * 
+		 * }
+		 */
 	}
 
 }

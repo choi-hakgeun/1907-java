@@ -19,7 +19,6 @@ public class StopWatchThread extends JPanel implements Runnable{
 		setBounds(new Rectangle(12, 122, 410, 52));
 		setLayout(new BorderLayout(0, 0));
 		add(getLblNewLabel(), BorderLayout.CENTER);
-
 	}
 
 	@Override
@@ -27,15 +26,19 @@ public class StopWatchThread extends JPanel implements Runnable{
 		
 	}
 
+	
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Stop Watch");
 			lblNewLabel.addAncestorListener(new AncestorListener() {
 				public void ancestorAdded(AncestorEvent arg0) {
+					
 				}
 				public void ancestorMoved(AncestorEvent arg0) {
+					
 				}
 				public void ancestorRemoved(AncestorEvent arg0) {
+					
 				}
 			});
 			lblNewLabel.setFont(new Font("±¼¸²", Font.PLAIN, 20));
