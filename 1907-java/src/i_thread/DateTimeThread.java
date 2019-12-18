@@ -6,6 +6,8 @@ import java.util.Date;
 public class DateTimeThread extends Thread{
 	private boolean stop;
 	Date now = new Date();
+	String ti;
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E)hh:mm:ss");
 	public void setStop(boolean stop) {
 		this.stop = stop;
 	}
@@ -14,11 +16,10 @@ public class DateTimeThread extends Thread{
 			//PrintThread printTread = new PrintThread();
 			//printThread.start();			
 			try {Thread.sleep(1000);}catch(InterruptedException e) {}
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E)hh:mm:ss");
-			//System.out.println(ti);			
-			String ti = sdf.format(now).toString();
+			ti = sdf.format(now).toString();
 			System.out.println(ti);
 		}
+		
 		/*while(!stop) {
 			try {Thread.sleep(1);}catch(InterruptedException e) {}
 			
