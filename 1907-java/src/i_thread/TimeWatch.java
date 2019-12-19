@@ -3,6 +3,7 @@ package i_thread;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -64,7 +65,8 @@ public class TimeWatch extends JFrame {
 		contentPane.add(getBtnNewButton());
 		contentPane.add(getBtnNewButton_1());
 		a.setTextField(textField);
-		a.start();
+		a.start();		
+		
 	}
 
 	public TimeWatch(JTextField textField) {
@@ -112,6 +114,7 @@ public class TimeWatch extends JFrame {
 	private JPanel getPanel() {
 		if (panel == null) {
 			panel = new StopWatchThread();
+			panel = new JPanel();
 			panel.setBounds(12, 122, 410, 52);
 		}
 		return panel;
@@ -123,6 +126,10 @@ public class TimeWatch extends JFrame {
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+					StopWatchThread st = (StopWatchThread)panel;
+					st.stop = false;
+					Thread t = new Thread(st);
+					t.setDaemon(true);
 				}
 			});
 			btnNewButton.setBounds(12, 184, 97, 23);
@@ -135,6 +142,8 @@ public class TimeWatch extends JFrame {
 			btnNewButton_1 = new JButton("STOP");
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					StopWatchThread st = (StopWatchThread)panel;
+					st.stop = true;
 					
 				}
 			});

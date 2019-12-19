@@ -3,15 +3,20 @@ package i_thread;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class DateTimeThread extends Thread {
+	JLabel watch;
+	
 	private boolean stop;
 	private String ti;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E)hh:mm:ss");
 	private JTextField textField;
 
-	public DateTimeThread() {}
+	public DateTimeThread(JLabel watch) {
+		this.watch = watch;
+	}
 
 	
 

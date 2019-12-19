@@ -2,6 +2,8 @@ package i_thread;
 
 import javax.swing.JPanel;
 import java.awt.Rectangle;
+import java.text.DecimalFormat;
+import java.util.Date;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -11,6 +13,8 @@ import javax.swing.event.AncestorEvent;
 
 public class StopWatchThread extends JPanel implements Runnable{
 	private JLabel lblNewLabel;
+	public boolean stop;
+	private JLabel timeLabel;
 
 	/**
 	 * Create the panel.
@@ -23,8 +27,16 @@ public class StopWatchThread extends JPanel implements Runnable{
 
 	@Override
 	public void run() {
-		
-	}
+		DecimalFormat df = new DecimalFormat("###,###.000");
+		long begin = new Date().getTime();
+		while(!stop) {
+			long end = new Date().getTime()-begin;
+			try {
+				Thread.sleep(1);
+			}catch(Exception ex) {}
+			timeLabel.setText(df.format(end/1000.0));
+		}
+				}
 
 	
 	private JLabel getLblNewLabel() {
