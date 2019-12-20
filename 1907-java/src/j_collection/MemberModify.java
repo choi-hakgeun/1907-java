@@ -2,6 +2,7 @@ package j_collection;
 
 import java.awt.EventQueue;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -85,7 +86,7 @@ public class MemberModify extends JInternalFrame {
 		
 		if( index >=0 ) {
 			MemberVo vo = list.get(index);
-			pwd.setText(vo.getPwd());
+			pwd.setText(vo.getPwd());//각각 ui단에 뿌림.
 			mName.setText(vo.getmName());
 			phone.setText(vo.getPhone());
 			
@@ -102,7 +103,7 @@ public class MemberModify extends JInternalFrame {
 		String find = mId.getText();
 		for(int i = 0; i<list.size();i++) {
 			MemberVo vo = list.get(i);
-			if(vo.getmId().equals(find)) { //문자열이 완벽하게 일치하도록 이퀄을 사용함.
+			if(vo.getmId().equals(find)) { 
 				index = i;
 				break;
 			}
@@ -113,6 +114,16 @@ public class MemberModify extends JInternalFrame {
 				vo.setPwd(pwd.getText());
 				vo.setmName(mName.getText());
 				vo.setPhone(phone.getText());
+				
+				String id = mId.getText();//무결성체크
+				String p = pwd.getText();
+				String n = mName.getText();
+				String ph = phone.getText();
+				
+				boolean flag = Pattern.matches(MemberMain.idcheck, id) &&//무결성체크
+						        Pattern.matches(MemberMain.pwdcheck, p) &&
+						        Pattern.matches(MemberMain.namecheck, n) &&
+						        Pattern.matches(MemberMain.phonecheck, ph);
 				
 				status.setText("수정이 완료되었습니다.");				
 			}else {
@@ -127,7 +138,7 @@ public class MemberModify extends JInternalFrame {
 		String find = mId.getText();
 		for(int i = 0; i<list.size();i++) {
 			MemberVo vo = list.get(i);
-			if(vo.getmId().equals(find)) { //문자열이 완벽하게 일치하도록 이퀄을 사용함.
+			if(vo.getmId().equals(find)) { 
 				index = i;
 				break;
 			}
@@ -135,6 +146,11 @@ public class MemberModify extends JInternalFrame {
 		if( index >=0 ) {
 			MemberVo vo = list.get(index);
 			list.remove(index);
+			
+			index = -1;//무결성
+			pwd.setText("");
+			mName.setText("");
+			phone.setText("");			
 			
 			status.setText("자료가 삭제되었습니다.");
 		}else {

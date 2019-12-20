@@ -15,13 +15,21 @@ public class MemberVo {
 	
 	@Override
 	public int hashCode() {
-		
-		return 0; //추후변경
+		return mId.hashCode() + phone.hashCode(); //추후변경
 	}
 	@Override
 	public boolean equals(Object obj) {
-		
-		return true; //추후변경
+		boolean result = false;
+		if(obj instanceof MemberVo) {
+			MemberVo vo = (MemberVo)obj;
+			if(vo.getmId().equals(mId)&&vo.getPhone().equals(phone)) {
+				result = true;
+			}
+		}else {
+			
+			return result; //추후변경
+		}
+		return result;
 	}
 	@Override
 	public String toString() {
