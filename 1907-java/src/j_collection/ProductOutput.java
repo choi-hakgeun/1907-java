@@ -1,6 +1,7 @@
 package j_collection;
 
 import java.awt.EventQueue;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
@@ -11,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ProductOutput extends JInternalFrame {
 	Set<ProductVo> peList;
@@ -24,7 +27,7 @@ public class ProductOutput extends JInternalFrame {
 	private JTextField ea;
 	private JTextField nal;
 	private JButton btnNewButton;
-	private JLabel lblNewLabel_4;
+	private JLabel status;
 	private JLabel lblNewLabel_1;
 
 	/**
@@ -62,13 +65,52 @@ public class ProductOutput extends JInternalFrame {
 		getContentPane().add(getEa());
 		getContentPane().add(getNal());
 		getContentPane().add(getBtnNewButton());
-		getContentPane().add(getLblNewLabel_4());
+		getContentPane().add(getStatus());
 		getContentPane().add(getLblNewLabel_1());
 
 	}
 	public ProductOutput(Set<ProductVo> pe) {
 		this();
 		this.peList = pe;
+	}
+	public void Output() {
+		//폼의 값을 가져다 ProductVo 생성
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		//입력항목이 공백인 경우
+		if(pCode.getText().equals("") || pName.getText().equals("")||ea.getText().equals("")|| nal.getText().equals("")) {
+			status.setText("입력항목에 오류가 있습니다.");
+			pCode.requestFocus();		
+			return;		
+		}
+		
+		try {
+		String serial = sdf.format(new Date()) + "-" + MemberMain.eSerial;
+		String pC = pCode.getText();
+		String pN = pName.getText();
+		int e = Integer.parseInt(ea.getText());
+		Date n = sdf.parse(nal.getText());
+		ProductVo vo = new ProductVo(serial, pC, pN, e, n);
+		// peList에 추가
+		peList.add(vo);
+		status.setText("출고 자료가 정상적으로 입력되었습니다.");
+		pName.setText("");
+		ea.setText("");
+		pCode.requestFocus();
+		pCode.selectAll();
+		
+		
+		MemberMain.eSerial++;
+		} catch (ParseException e1) {
+			status.setText("날짜 형식을 yyyy-MM-dd 로 입력해 주세요.");
+			nal.requestFocus();
+			nal.selectAll();
+		}catch(NumberFormatException e2) {
+			status.setText("숫자만 입력해 주세요.");
+			nal.requestFocus();
+			nal.selectAll();
+		};
+		//생성 후 출고 컬렉션 peList에 추가
 	}
 
 	private JLabel getLblNewLabel() {
@@ -137,19 +179,24 @@ public class ProductOutput extends JInternalFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uCD9C\uACE0");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Output();					
+				}
+			});
 			btnNewButton.setBounds(81, 121, 165, 23);
 		}
 		return btnNewButton;
 	}
-	private JLabel getLblNewLabel_4() {
-		if (lblNewLabel_4 == null) {
-			lblNewLabel_4 = new JLabel("New label");
-			lblNewLabel_4.setBackground(Color.YELLOW);
-			lblNewLabel_4.setOpaque(true);
-			lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_4.setBounds(12, 154, 234, 21);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("New label");
+			status.setBackground(Color.YELLOW);
+			status.setOpaque(true);
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBounds(12, 154, 234, 21);
 		}
-		return lblNewLabel_4;
+		return status;
 	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {

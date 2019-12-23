@@ -48,6 +48,9 @@ public class MemberMain extends JFrame {
 	private JMenuItem mntmNewMenuItem_4;
 	private JMenuItem mntmNewMenuItem_5;
 	private JMenuItem mntmNewMenuItem_6;
+	private JMenu mnNewMenu_2;
+	private JMenuItem mntmNewMenuItem_7;
+	private JMenuItem mntmNewMenuItem_8;
 
 	/**
 	 * Launch the application.
@@ -88,7 +91,7 @@ public class MemberMain extends JFrame {
 		//입고 sample data
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		for(int i = 0; i<100 ; i++) {
-			String tempSerial = sdf.format(new Date()) + MemberMain.iSerial;
+			String tempSerial = sdf.format(new Date()) +"-"+ MemberMain.iSerial;
 			ProductVo vo= new ProductVo(tempSerial, "pCode"+i, "pName"+i, 3000, new Date());
 			piList.add(vo);
 			peList.add(vo);
@@ -105,6 +108,7 @@ public class MemberMain extends JFrame {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnNewMenu());
 			menuBar.add(getMnNewMenu_1());
+			menuBar.add(getMnNewMenu_2());
 		}
 		return menuBar;
 	}
@@ -124,6 +128,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					MemberInput m = new MemberInput(list); //콜바이 레퍼런스 - 주소만 이동됨
 					contentPane.add(m);
+					m.toFront();
 				}
 			});
 		}
@@ -136,6 +141,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					MemberSearch m = new MemberSearch(list);
 					contentPane.add(m);
+					m.toFront();
 				}
 			});
 		}
@@ -148,6 +154,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					MemberModify m = new MemberModify(list);
 					contentPane.add(m);
+					m.toFront();
 				}
 			});
 		}
@@ -171,6 +178,7 @@ public class MemberMain extends JFrame {
 					
 					ProductInput panal = new ProductInput(piList);
 					contentPane.add(panal);
+					panal.toFront();
 				}
 			});
 		}
@@ -183,6 +191,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					ProductOutput panal = new ProductOutput(peList);
 					contentPane.add(panal);
+					panal.toFront();
 				}
 			});
 			
@@ -197,6 +206,7 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					ProductSearch panal = new ProductSearch(piList, peList);
 					contentPane.add(panal);
+					panal.toFront();
 				}
 			});
 			
@@ -211,9 +221,44 @@ public class MemberMain extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					ProductModify panal = new ProductModify(piList, peList);
 					contentPane.add(panal);
+					panal.toFront();
 				}
 			});
 		}
 		return mntmNewMenuItem_6;
+	}
+	private JMenu getMnNewMenu_2() {
+		if (mnNewMenu_2 == null) {
+			mnNewMenu_2 = new JMenu("성적관리");
+			mnNewMenu_2.add(getMntmNewMenuItem_7());
+			mnNewMenu_2.add(getMntmNewMenuItem_8());
+		}
+		return mnNewMenu_2;
+	}
+	private JMenuItem getMntmNewMenuItem_7() {
+		if (mntmNewMenuItem_7 == null) {
+			mntmNewMenuItem_7 = new JMenuItem("입력");
+			mntmNewMenuItem_7.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ScoreInput panal = new ScoreInput();
+					contentPane.add(panal);
+					panal.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_7;
+	}
+	private JMenuItem getMntmNewMenuItem_8() {
+		if (mntmNewMenuItem_8 == null) {
+			mntmNewMenuItem_8 = new JMenuItem("조회");
+			mntmNewMenuItem_8.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ScoreSearch panal = new ScoreSearch();
+					contentPane.add(panal);
+					panal.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_8;
 	}
 }

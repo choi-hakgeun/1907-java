@@ -27,7 +27,7 @@ public class ProductInput extends JInternalFrame {
 	private JTextField ea;
 	private JTextField nal;
 	private JButton btnNewButton;
-	private JLabel lblNewLabel_4;
+	private JLabel status;
 	private JLabel lblNewLabel_5;
 	
 
@@ -64,7 +64,7 @@ public class ProductInput extends JInternalFrame {
 		getContentPane().add(getEa());
 		getContentPane().add(getNal());
 		getContentPane().add(getBtnNewButton());
-		getContentPane().add(getLblNewLabel_4());
+		getContentPane().add(getStatus());
 		getContentPane().add(getLblNewLabel_5());
 
 	}	
@@ -74,7 +74,11 @@ public class ProductInput extends JInternalFrame {
 	}
 	public void input() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");	
-		
+		if(pCode.getText().equals("") || pName.getText().equals("")||ea.getText().equals("")|| nal.getText().equals("")) {
+			status.setText("입력항목에 오류가 있습니다.");
+			pCode.requestFocus();		
+			return;		
+		}
 		try {
 			String serial = sdf.format(new Date()) +"-"+MemberMain.iSerial;		
 			String pC = pCode.getText();
@@ -83,10 +87,27 @@ public class ProductInput extends JInternalFrame {
 			Date n = sdf.parse(nal.getText());
 			
 			ProductVo vo = new ProductVo(serial, pC, pN, e, n);
-			piList.add(vo);
+			piList.add(vo);			
+			
+			status.setText("입고 자료가 정상적으로 입력되었습니다.");
+			pName.setText("");
+			ea.setText("");
+			pCode.requestFocus();
+			pCode.selectAll();
 			
 			MemberMain.iSerial++;
-		} catch (Exception ex) {}
+			
+			
+		} catch (ParseException e1) {
+			status.setText("날짜 형식을 yyyy-MM-dd 로 입력해 주세요.");
+			nal.requestFocus();
+			nal.selectAll();
+		}catch(NumberFormatException e2) {
+			status.setText("숫자만 입력해 주세요.");
+			nal.requestFocus();
+			nal.selectAll();
+		};
+		//생성 후 출고 컬렉션 peList에 추가	
 	}
 	
 	private JLabel getLblNewLabel() {
@@ -164,15 +185,15 @@ public class ProductInput extends JInternalFrame {
 		}
 		return btnNewButton;
 	}
-	private JLabel getLblNewLabel_4() {
-		if (lblNewLabel_4 == null) {
-			lblNewLabel_4 = new JLabel("New label");
-			lblNewLabel_4.setBackground(Color.YELLOW);
-			lblNewLabel_4.setOpaque(true);
-			lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_4.setBounds(12, 147, 221, 21);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("New label");
+			status.setBackground(Color.YELLOW);
+			status.setOpaque(true);
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBounds(12, 147, 221, 21);
 		}
-		return lblNewLabel_4;
+		return status;
 	}
 	private JLabel getLblNewLabel_5() {
 		if (lblNewLabel_5 == null) {

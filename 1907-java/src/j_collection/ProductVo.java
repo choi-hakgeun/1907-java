@@ -43,7 +43,7 @@ public class ProductVo {
 	@Override
 	public String toString() {
 		DecimalFormat df = new DecimalFormat("#,###,###");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd(E)");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		String tempEa = df.format(this.ea);
 		String tempDate = sdf.format(this.nal);
