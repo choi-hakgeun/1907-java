@@ -15,7 +15,7 @@ public class ScoreVo {
 	
 	public ScoreVo() {}
 	public ScoreVo(String sno, String mName, String exam, 
-			        int grade, int kor, int eng, int mat, int tot, double avg) {
+			        int grade, int kor, int eng, int mat ) {
 		this();
 		this.sno = sno;
 		this.mName = mName;
@@ -24,24 +24,23 @@ public class ScoreVo {
 		this.kor = kor;
 		this.eng = eng;
 		this.mat = mat;
-		this.tot = tot;
-		this.avg = avg;
-	}
-	@Override
-	public int hashCode() {
-		return this.sno.hashCode();
+		
+		this.tot = (kor+eng+mat);
+		this.avg = (double)tot/3;//tot색확인
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) {//매개변수가 ScoreVo가 되면 다른객체로 판단? 오버라이드기능이 사라짐
 		boolean r = false;
 		if(obj instanceof ScoreVo) {
-			ScoreVo vo = (ScoreVo)obj;
-			if(sno == vo.sno) {
-				
-			}
+			ScoreVo s = (ScoreVo)obj;
+			if(getSno().equals(s.getSno())) r = true;
 		}
-		return super.equals(obj);
+		return r;		
+	}
+	@Override
+	public int hashCode() {
+		return sno.hashCode();
 	}
 	
 	public String getSno() {

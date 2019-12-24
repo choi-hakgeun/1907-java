@@ -1,24 +1,24 @@
 package j_collection;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.border.EmptyBorder;
 
 public class MemberMain extends JFrame {
 	
@@ -26,6 +26,8 @@ public class MemberMain extends JFrame {
 	static String pwdcheck = "[\\w!$]{4,10}";
 	static String namecheck = "[가-힣]{4,10}";
 	static String phonecheck = "\\d{2,3}-\\d{3,4}-\\{4}";
+	
+	Map<String, List<ScoreVo>> map = new HashMap<String, List<ScoreVo>>();
 	
 	List<MemberVo> list = new ArrayList<MemberVo>();//리스트 컬렉션 필드 생성
 	
@@ -74,7 +76,7 @@ public class MemberMain extends JFrame {
 	public MemberMain() {
 		setTitle("\uD68C\uC6D0\uAD00\uB9AC");//회원관리		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1400, 387);
+		setBounds(100, 100, 903, 502);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JDesktopPane();
 		contentPane.setBackground(new Color(255, 204, 255));
@@ -101,6 +103,30 @@ public class MemberMain extends JFrame {
 		
 		//System.out.println(piList.size());
 		//System.out.println(peList.size());
+		
+		//성적관리 sample
+		ScoreVo sVo = new ScoreVo("1", "kim", "중간", 1,90,90,90);
+		List<ScoreVo> list1 = new ArrayList<ScoreVo>();
+		list1.add(sVo);
+		list1.add(new ScoreVo("1", "kim", "기말", 1, 80,70,60));
+		list1.add(new ScoreVo("1", "kim", "기말", 1, 60,80,50));
+		
+		map.put("1", list1);
+		
+		//---
+		list1 = new ArrayList<ScoreVo>();
+		list1.add(new ScoreVo("2", "lee", "중간", 3, 50,60,50));
+		list1.add(new ScoreVo("2", "lee", "기말", 3, 40,30,40));
+		
+		map.put("2", list1);
+		
+		//---
+		list1 = new ArrayList<ScoreVo>();
+		list1.add(new ScoreVo("3", "hong", "중간", 2, 10,10,10));
+		list1.add(new ScoreVo("3", "hong", "기말", 2, 20,30,40));
+		list1.add(new ScoreVo("3", "hong", "중간", 3, 80,90,85));
+		
+		map.put("3", list1);
 	}
 
 	private JMenuBar getMenuBar_1() {
@@ -253,7 +279,8 @@ public class MemberMain extends JFrame {
 			mntmNewMenuItem_8 = new JMenuItem("조회");
 			mntmNewMenuItem_8.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ScoreSearch panal = new ScoreSearch();
+					
+					ScoreSearch panal = new ScoreSearch(map);
 					contentPane.add(panal);
 					panal.toFront();
 				}
