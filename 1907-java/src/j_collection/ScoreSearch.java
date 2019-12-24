@@ -19,6 +19,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ScoreSearch extends JInternalFrame {
 	Map<String, List<ScoreVo>> map;
@@ -38,7 +40,7 @@ public class ScoreSearch extends JInternalFrame {
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
-	private JLabel lblNewLabel_1;
+	private JLabel status;
 
 	/**
 	 * Launch the application.
@@ -73,7 +75,7 @@ public class ScoreSearch extends JInternalFrame {
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getBtnNewButton_1());
 		getContentPane().add(getBtnNewButton_2());
-		getContentPane().add(getLblNewLabel_1());
+		getContentPane().add(getStatus());
 
 	}
 	
@@ -116,8 +118,11 @@ public class ScoreSearch extends JInternalFrame {
 			listSno = new JList();
 			listSno.addListSelectionListener(new ListSelectionListener() {
 				public void valueChanged(ListSelectionEvent ev) {
+					
 					String sno = (String)listSno.getSelectedValue();
-					list = map.get(sno);
+					if(sno == null) return;//선택되지 않은 경우라면 아래로 흘러내려가지 않도록.
+					
+					list = map.get(sno);					
 					modelExam = new DefaultListModel<>();
 					for(int i = 0; i<list.size();i++) {
 						ScoreVo vo = list.get(i);
@@ -148,8 +153,7 @@ public class ScoreSearch extends JInternalFrame {
 					int grade = -1;
 					
 					if(index < 0) {
-						index = 0;
-						listExam.setSelectedIndex(index);
+						return;						
 					}
 					
 					ScoreVo vo = list.get(index);
@@ -192,7 +196,34 @@ public class ScoreSearch extends JInternalFrame {
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uAC80\uC0C9");
+			btnNewButton = new JButton("\uAC80\uC0C9");//검색			
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					String findStr = textField.getText();
+					ScoreDao dao = new ScoreDao(map);
+					Map<String, List<ScoreVo>> newMap = dao.list(findStr);//서치에서 검색버튼을 클릭하면
+					
+					Set<String> set = newMap.keySet();
+					modelSno = new DefaultListModel<String>();//
+					Iterator<String> iter = set.iterator();
+					while(iter.hasNext()) {
+						modelSno.addElement(iter.next());
+					}
+					listSno.setModel(modelSno);
+					modelExam.clear();
+					
+					//상세정보 삭제
+					panel.tSno.setText("");
+					panel.tmName.setText("");
+					panel.tKor.setText("");
+					panel.tEng.setText("");
+					panel.tMat.setText("");
+					panel.tTot.setText("");
+					panel.tAvg.setText("");
+					
+				}
+			});
 			btnNewButton.setBounds(355, 63, 97, 23);
 		}
 		return btnNewButton;
@@ -200,25 +231,85 @@ public class ScoreSearch extends JInternalFrame {
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC0AD\uC81C");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String key = panel.tSno.getText();
+					int index = listExam.getSelectedIndex();
+					
+					ScoreDao dao = new ScoreDao(map);
+					boolean b = dao.delete(key, index);
+					if(b) {
+						status.setText("자료가 삭제되었습니다.");
+						//상세정보 삭제
+						panel.tSno.setText("");
+						panel.tmName.setText("");
+						panel.tKor.setText("");
+						panel.tEng.setText("");
+						panel.tMat.setText("");
+						panel.tTot.setText("");
+						panel.tAvg.setText("");
+						if(modelExam.size() >0) modelExam.remove(index);
+						
+						
+					}else {
+						status.setText("삭제중 오류발생.");
+					}
+				}
+			});
 			btnNewButton_1.setBounds(422, 358, 97, 23);
 		}
 		return btnNewButton_1;
 	}
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("\uC218\uC815");
+			btnNewButton_2 = new JButton("\uC218\uC815");//수정
+			btnNewButton_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					String key = panel.tSno.getText();
+					int index = listExam.getSelectedIndex();
+										
+					String mName = panel.tmName.getText();
+					int kor = Integer.parseInt(panel.tKor.getText());
+					int eng = Integer.parseInt(panel.tEng.getText());
+					int mat = Integer.parseInt(panel.tMat.getText());
+					String exam = "";
+					int grade = 0;
+					if(panel.rExam1.isSelected()) {
+						exam = "중간";
+					}else {
+						exam = "기말";
+					}
+					
+					grade = panel.cGrade.getSelectedIndex()+1;
+					
+					ScoreVo vo = new ScoreVo(key, mName, exam, grade, kor, eng, mat);
+					
+					ScoreDao dao = new ScoreDao(map);
+					boolean b = dao.update(key, index, vo);
+					if(b) {
+						status.setText("자료가 정상적으로 수정되었습니다.");						
+						
+					}else {
+						status.setText("수정중 오류가 발생하였습니다.");
+					}
+					
+					
+					
+				}
+			});
 			btnNewButton_2.setBounds(313, 358, 97, 23);
 		}
 		return btnNewButton_2;
 	}
-	private JLabel getLblNewLabel_1() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("New label");
-			lblNewLabel_1.setOpaque(true);
-			lblNewLabel_1.setBackground(new Color(250, 250, 210));
-			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_1.setBounds(12, 362, 289, 29);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("New label");
+			status.setOpaque(true);
+			status.setBackground(new Color(250, 250, 210));
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBounds(12, 362, 289, 29);
 		}
-		return lblNewLabel_1;
+		return status;
 	}
 }

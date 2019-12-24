@@ -1,23 +1,23 @@
 package j_collection;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import java.awt.Font;
-import java.awt.Color;
 
 public class ScoreInput extends JInternalFrame {
 	
+	Map<String, List<ScoreVo>> map;
 	
 	private JButton btnNewButton;
 	private JLabel status;
@@ -27,8 +27,7 @@ public class ScoreInput extends JInternalFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
+	public static void main(String[] args) {		
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -58,20 +57,47 @@ public class ScoreInput extends JInternalFrame {
 		getContentPane().add(getPanel());
 
 	}
-	public ScoreInput(Map<String, Integer> map) {
+	public ScoreInput(Map<String, List<ScoreVo>> map) {
 		this();
+		this.map = map;
 		
 	}
-	public void input(ScoreVo vo) {
-		ScoreDao sd = new ScoreDao();
-		sd.insert(vo);
-	}
+	
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC800\uC7A5");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					input(null);
+					//무결성 체크
+					//todo
+					
+					String sno = panel.tSno.getText();
+					String mName = panel.tmName.getText();
+					int kor = Integer.parseInt(panel.tKor.getText());
+					int eng = Integer.parseInt(panel.tEng.getText());
+					int mat = Integer.parseInt(panel.tMat.getText());
+					String exam = "";
+					int grade = 0;
+					if(panel.rExam1.isSelected()) {
+						exam = "중간";
+					}else {
+						exam = "기말";
+					}
+					
+					grade = panel.cGrade.getSelectedIndex()+1;
+					
+					ScoreVo vo = new ScoreVo(sno, mName, exam, grade, kor, eng, mat);
+					
+					panel.tTot.setText(vo.getTot()+"");
+					panel.tAvg.setText(String.format("%5.1f", vo.getAvg()));
+					
+					ScoreDao dao = new ScoreDao(map);
+					boolean b = dao.insert(vo);
+					if(b) {
+						status.setText("데이터가 저장되었습니다.");
+					}else {
+						status.setText("저장중 오류 발생");
+					}
 				}
 			});
 			btnNewButton.setBounds(70, 316, 116, 23);

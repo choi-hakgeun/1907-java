@@ -266,7 +266,7 @@ public class MemberMain extends JFrame {
 			mntmNewMenuItem_7 = new JMenuItem("입력");
 			mntmNewMenuItem_7.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ScoreInput panal = new ScoreInput();
+					ScoreInput panal = new ScoreInput(map);
 					contentPane.add(panal);
 					panal.toFront();
 				}
