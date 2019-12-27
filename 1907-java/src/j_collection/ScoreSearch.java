@@ -37,7 +37,7 @@ public class ScoreSearch extends JInternalFrame {
 	private JList listExam;
 	private InputPanel panel;
 	private JTextField textField;
-	private JButton btnNewButton;
+	public JButton btnFind;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JLabel status;
@@ -72,7 +72,7 @@ public class ScoreSearch extends JInternalFrame {
 		getContentPane().add(getScrollPane_1());
 		getContentPane().add(getPanel());
 		getContentPane().add(getTextField_1());
-		getContentPane().add(getBtnNewButton());
+		getContentPane().add(getBtnFind());
 		getContentPane().add(getBtnNewButton_1());
 		getContentPane().add(getBtnNewButton_2());
 		getContentPane().add(getStatus());
@@ -194,10 +194,10 @@ public class ScoreSearch extends JInternalFrame {
 		}
 		return textField;
 	}
-	private JButton getBtnNewButton() {
-		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uAC80\uC0C9");//검색			
-			btnNewButton.addActionListener(new ActionListener() {
+	private JButton getBtnFind() {
+		if (btnFind == null) {
+			btnFind = new JButton("\uAC80\uC0C9");//검색			
+			btnFind.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
 					String findStr = textField.getText();
@@ -224,9 +224,9 @@ public class ScoreSearch extends JInternalFrame {
 					
 				}
 			});
-			btnNewButton.setBounds(355, 63, 97, 23);
+			btnFind.setBounds(355, 63, 97, 23);
 		}
-		return btnNewButton;
+		return btnFind;
 	}
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {

@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 public class ScoreInput extends JInternalFrame {
 	
 	Map<String, List<ScoreVo>> map;
+	MemberMain mm;
 	
 	private JButton btnNewButton;
 	private JLabel status;
@@ -57,10 +58,21 @@ public class ScoreInput extends JInternalFrame {
 		getContentPane().add(getPanel());
 
 	}
-	public ScoreInput(Map<String, List<ScoreVo>> map) {
+	public ScoreInput(Map<String, List<ScoreVo>> map, MemberMain mm) {
 		this();
 		this.map = map;
+		this.mm = mm;
 		
+	}
+	
+	public void sync() {
+		Object[] obj = mm.getContentPane().getComponents();
+		for(int i=0 ; i<obj.length ; i++) {
+			if(obj[i] instanceof ScoreSearch) {
+				ScoreSearch ss = (ScoreSearch)obj[i];
+				ss.btnFind.doClick();
+			}
+		}
 	}
 	
 	private JButton getBtnNewButton() {
@@ -95,6 +107,7 @@ public class ScoreInput extends JInternalFrame {
 					boolean b = dao.insert(vo);
 					if(b) {
 						status.setText("데이터가 저장되었습니다.");
+						sync();
 					}else {
 						status.setText("저장중 오류 발생");
 					}

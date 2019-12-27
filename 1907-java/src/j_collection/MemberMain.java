@@ -53,6 +53,12 @@ public class MemberMain extends JFrame {
 	private JMenu mnNewMenu_2;
 	private JMenuItem mntmNewMenuItem_7;
 	private JMenuItem mntmNewMenuItem_8;
+	private JMenu mnNewMenu_3;
+	private JMenuItem mntmNewMenuItem_9;
+	private JMenuItem mntmNewMenuItem_10;
+	private JMenuItem mntmNewMenuItem_11;
+	private JMenuItem mntmNewMenuItem_12;
+	private JMenuItem mntmNewMenuItem_13;
 
 	/**
 	 * Launch the application.
@@ -135,6 +141,7 @@ public class MemberMain extends JFrame {
 			menuBar.add(getMnNewMenu());
 			menuBar.add(getMnNewMenu_1());
 			menuBar.add(getMnNewMenu_2());
+			menuBar.add(getMnNewMenu_3());
 		}
 		return menuBar;
 	}
@@ -266,7 +273,7 @@ public class MemberMain extends JFrame {
 			mntmNewMenuItem_7 = new JMenuItem("입력");
 			mntmNewMenuItem_7.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ScoreInput panal = new ScoreInput(map);
+					ScoreInput panal = new ScoreInput(map, MemberMain.this);
 					contentPane.add(panal);
 					panal.toFront();
 				}
@@ -287,5 +294,81 @@ public class MemberMain extends JFrame {
 			});
 		}
 		return mntmNewMenuItem_8;
+	}
+	private JMenu getMnNewMenu_3() {
+		if (mnNewMenu_3 == null) {
+			mnNewMenu_3 = new JMenu("기타컬렉션");
+			mnNewMenu_3.add(getMntmNewMenuItem_9());
+			mnNewMenu_3.add(getMntmNewMenuItem_10());
+			mnNewMenu_3.add(getMntmNewMenuItem_11());
+			mnNewMenu_3.add(getMntmNewMenuItem_12());
+			mnNewMenu_3.add(getMntmNewMenuItem_13());
+		}
+		return mnNewMenu_3;
+	}
+	private JMenuItem getMntmNewMenuItem_9() {
+		if (mntmNewMenuItem_9 == null) {
+			mntmNewMenuItem_9 = new JMenuItem("Properties");
+			mntmNewMenuItem_9.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					PropertiesFrame panel = new PropertiesFrame();
+					contentPane.add(panel);
+					panel.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_9;
+	}
+	private JMenuItem getMntmNewMenuItem_10() {
+		if (mntmNewMenuItem_10 == null) {
+			mntmNewMenuItem_10 = new JMenuItem("TreeSet");
+			mntmNewMenuItem_10.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TreeSetFrame panel = new TreeSetFrame();
+					contentPane.add(panel);
+					panel.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_10;
+	}
+	private JMenuItem getMntmNewMenuItem_11() {
+		if (mntmNewMenuItem_11 == null) {
+			mntmNewMenuItem_11 = new JMenuItem("TreeMap");
+			mntmNewMenuItem_11.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					TreeMapFrame panel = new TreeMapFrame();
+					contentPane.add(panel);
+					panel.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_11;
+	}
+	private JMenuItem getMntmNewMenuItem_12() {
+		if (mntmNewMenuItem_12 == null) {
+			mntmNewMenuItem_12 = new JMenuItem("Stack");
+			mntmNewMenuItem_12.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					StackFrame panel = new StackFrame();
+					contentPane.add(panel);
+					panel.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_12;
+	}
+	private JMenuItem getMntmNewMenuItem_13() {
+		if (mntmNewMenuItem_13 == null) {
+			mntmNewMenuItem_13 = new JMenuItem("Queue");
+			mntmNewMenuItem_13.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					QueueFrame panel = new QueueFrame();
+					contentPane.add(panel);
+					panel.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_13;
 	}
 }
