@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 public class MemberModify extends JInternalFrame {
 	int index;
 	List<MemberVo> list;
-	
+
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
@@ -52,7 +52,7 @@ public class MemberModify extends JInternalFrame {
 	public MemberModify() {
 		super("회원정보수정", false, true, true, true);
 		setVisible(true);
-		
+
 		setBounds(70, 100, 338, 224);
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
@@ -69,97 +69,97 @@ public class MemberModify extends JInternalFrame {
 		getContentPane().add(getStatus());
 
 	}
-	public void search() { //검색버튼
+
+	public void search() { // 검색버튼
 		index = -1;
 		pwd.setText("");
 		mName.setText("");
 		phone.setText("");
-		
+
 		String find = mId.getText();
-		for(int i = 0; i<list.size();i++) {
-			MemberVo vo = list.get(i);
-			if(vo.getmId().equals(find)) { //문자열이 완벽하게 일치하도록 이퀄을 사용함.
-				index = i;
-				break;
-			}
-		}
-		
-		if( index >=0 ) {
-			MemberVo vo = list.get(index);
-			pwd.setText(vo.getPwd());//각각 ui단에 뿌림.
+		MemberDao dao = new MemberDao();
+		MemberVo vo = dao.search(find);
+
+		if (vo != null) {
+
+			pwd.setText(vo.getPwd());// 각각 ui단에 뿌림.
 			mName.setText(vo.getmName());
 			phone.setText(vo.getPhone());
-			
+
 			status.setBackground(Color.BLUE);
 			status.setText("자료가 검색되었습니다.");
-		}else {
+		} else {
 			status.setBackground(Color.RED);
 			status.setText("찾는 자료가 없습니다.");
-			
+			mId.requestFocus();
+			mId.selectAll();
+
 		}
 	}
+
 	public void modify() { //수정버튼
-		index = -1;	
-		String find = mId.getText();
-		for(int i = 0; i<list.size();i++) {
-			MemberVo vo = list.get(i);
-			if(vo.getmId().equals(find)) { 
-				index = i;
-				break;
-			}
-		}
-			if(index >= 0 ) {
-				
-				MemberVo vo = list.get(index);
-				vo.setPwd(pwd.getText());
-				vo.setmName(mName.getText());
-				vo.setPhone(phone.getText());
-				
-				String id = mId.getText();//무결성체크
-				String p = pwd.getText();
-				String n = mName.getText();
-				String ph = phone.getText();
-				
-				boolean flag = Pattern.matches(FileExam2.idcheck, id) &&//무결성체크
-						        Pattern.matches(FileExam2.pwdcheck, p) &&
-						        Pattern.matches(FileExam2.namecheck, n) &&
-						        Pattern.matches(FileExam2.phonecheck, ph);
-				
-				status.setText("수정이 완료되었습니다.");				
+		
+		String id = mId.getText();//무결성체크
+		String p = pwd.getText();
+		String n = mName.getText();
+		String ph = phone.getText();
+		
+		boolean flag = Pattern.matches(FileExam2.idcheck, id) &&//무결성체크
+				        Pattern.matches(FileExam2.pwdcheck, p) &&
+				        Pattern.matches(FileExam2.namecheck, n) &&
+				        Pattern.matches(FileExam2.phonecheck, ph);
+		System.out.println(Pattern.matches(FileExam2.idcheck, id));
+		System.out.println(Pattern.matches(FileExam2.pwdcheck, p));
+		System.out.println(n);
+		System.out.println(ph);
+		System.out.println(Pattern.matches(FileExam2.namecheck, n));
+		System.out.println(Pattern.matches(FileExam2.phonecheck, ph));
+		
+		status.setText("수정이 완료되었습니다.");
+		if(flag) {
+			MemberVo vo = new MemberVo(id, p, n, ph);
+			MemberDao dao = new MemberDao();
+			boolean b = dao.modify(vo);
+			status.setText("뭐라고했는지 모르겠다");
+			if(b) {
+				status.setBackground(Color.blue);
+				status.setText("자료가 수정 입력됨.");
 			}else {
-				status.setText("먼저 검색해 주세요");
+				status.setBackground(Color.RED);
+				status.setText("데이터 저장중 오류발생");
 		}
+		
+		}else {
+			status.setBackground(Color.RED);
+			status.setText("입력자료를 확인해 주세요");
+		}
+		
 			
 		
 	}
-	
-	public void delete() { //삭제버튼
-		index = -1;
-		String find = mId.getText();
-		for(int i = 0; i<list.size();i++) {
-			MemberVo vo = list.get(i);
-			if(vo.getmId().equals(find)) { 
-				index = i;
-				break;
-			}
-		}
-		if( index >=0 ) {
-			MemberVo vo = list.get(index);
-			list.remove(index);
+
+	public void delete() { // 삭제버튼
+		String findMid = mId.getText();
+		MemberDao dao = new MemberDao();
+		boolean b = dao.delete(findMid);
+		
+		if (b) {
+			status.setBackground(Color.blue);
+			status.setText("자료가 삭제되었습니다.");
 			
-			index = -1;//무결성
+			
 			pwd.setText("");
 			mName.setText("");
-			phone.setText("");			
+			phone.setText("");
 			
-			status.setText("자료가 삭제되었습니다.");
-		}else {
+
+		} else {
 			status.setBackground(Color.RED);
 			status.setText("검색하세요.");
-			
+
 		}
 	}
-	
+
 	public MemberModify(List<MemberVo> list) {
 		this();
 		this.list = list;
@@ -172,6 +172,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return lblNewLabel;
 	}
+
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("\uBE44\uBC00\uBC88\uD638");
@@ -179,6 +180,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return lblNewLabel_1;
 	}
+
 	private JLabel getLblNewLabel_2() {
 		if (lblNewLabel_2 == null) {
 			lblNewLabel_2 = new JLabel("\uC131\uBA85");
@@ -186,6 +188,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return lblNewLabel_2;
 	}
+
 	private JLabel getLblNewLabel_3() {
 		if (lblNewLabel_3 == null) {
 			lblNewLabel_3 = new JLabel("\uC5F0\uB77D\uCC98");
@@ -193,6 +196,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return lblNewLabel_3;
 	}
+
 	private JTextField getMId() {
 		if (mId == null) {
 			mId = new JTextField();
@@ -201,6 +205,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return mId;
 	}
+
 	private JTextField getPwd() {
 		if (pwd == null) {
 			pwd = new JTextField();
@@ -209,6 +214,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return pwd;
 	}
+
 	private JTextField getMName() {
 		if (mName == null) {
 			mName = new JTextField();
@@ -217,6 +223,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return mName;
 	}
+
 	private JTextField getPhone() {
 		if (phone == null) {
 			phone = new JTextField();
@@ -225,9 +232,10 @@ public class MemberModify extends JInternalFrame {
 		}
 		return phone;
 	}
+
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("\uC218\uC815");//수정
+			btnNewButton = new JButton("\uC218\uC815");// 수정
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					modify();
@@ -237,9 +245,10 @@ public class MemberModify extends JInternalFrame {
 		}
 		return btnNewButton;
 	}
+
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("\uC0AD\uC81C");//삭제
+			btnNewButton_1 = new JButton("\uC0AD\uC81C");// 삭제
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					delete();
@@ -249,9 +258,10 @@ public class MemberModify extends JInternalFrame {
 		}
 		return btnNewButton_1;
 	}
+
 	private JButton getBtnNewButton_2() {
 		if (btnNewButton_2 == null) {
-			btnNewButton_2 = new JButton("\uAC80\uC0C9"); //검색
+			btnNewButton_2 = new JButton("\uAC80\uC0C9"); // 검색
 			btnNewButton_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					search();
@@ -261,6 +271,7 @@ public class MemberModify extends JInternalFrame {
 		}
 		return btnNewButton_2;
 	}
+
 	private JLabel getStatus() {
 		if (status == null) {
 			status = new JLabel("\uAC80\uC0C9\uD560 \uC544\uC774\uB514\uB97C \uC785\uB825\uD558\uC138\uC694.");

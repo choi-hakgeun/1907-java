@@ -19,8 +19,8 @@ public class FileExam2 extends JFrame {
 	
 	static String idcheck = "\\w{4,10}";//패턴, 무결성체크
 	static String pwdcheck = "[\\w!$]{4,10}";
-	static String namecheck = "[가-힣]{4,10}";
-	static String phonecheck = "\\d{2,3}-\\d{3,4}-\\{4}";
+	static String namecheck = "[가-힣]{3,10}";
+	static String phonecheck = "\\d{2,3}-\\d{3,4}-\\d{4}";
 
 	private JDesktopPane contentPane;
 	private JMenuBar menuBar;

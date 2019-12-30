@@ -1,20 +1,20 @@
 package k_io;
 
+import java.awt.Color;
 import java.awt.EventQueue;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Color;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-public class MemberInput extends JInternalFrame {
-	List<MemberVo> list;
+public class MemberInput extends JInternalFrame {	
+	
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
@@ -60,30 +60,45 @@ public class MemberInput extends JInternalFrame {
 		getContentPane().add(getPhone());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getStatus());
-	}
+	}	
 	
-	public MemberInput(List<MemberVo> list) {//멤버인풋 매개변수 리스트 제네릭 맴버vo 형고정 리스트를 매개변수로 하는 맴퍼인풋
-		this(); //같은 클레스의 다른 생성자 호출
-		this.list = list; //객체 자신이 가지고있는 리스트 를 자신에게 대입.
-	}
 	public void input() {//인풋 매서드
 		String id = mId.getText();
 		String p  = pwd.getText();
 		String n  = mName.getText();
 		String ph = phone.getText();
 		
+		boolean flag = 
+				Pattern.matches(FileExam2.idcheck, id) &&
+				Pattern.matches(FileExam2.pwdcheck, p) &&
+				Pattern.matches(FileExam2.namecheck, n) &&
+				Pattern.matches(FileExam2.phonecheck, ph);
+		
+		if(!flag) {
+			status.setText("뭐라고했는지 모르겠다");
+		}
+		
 		MemberVo vo = new MemberVo(id, p, n, ph);
-		this.list.add(vo);
+		MemberDao dao = new MemberDao();
+		boolean b = dao.insert(vo);
 		
-		mId.setText("");
-		pwd.setText("");
-		mName.setText("");
-		phone.setText("");
+		if(b) {
+			mId.setText("");
+			pwd.setText("");
+			mName.setText("");
+			phone.setText("");
+			
+			mId.requestFocus();
+			mId.selectAll();
+			
+			status.setText("회원정보가 추가로 입력됨.");
+			
+		}else {
+			status.setText("데이터 저장중 오류발생");
 		
-		mId.requestFocus();
-		mId.selectAll();
+		}
 		
-		status.setText("회원정보가 추가로 입력됨.(" + list.size()+" 건)");
+		
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {

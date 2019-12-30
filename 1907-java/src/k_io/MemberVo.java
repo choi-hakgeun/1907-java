@@ -7,7 +7,7 @@ public class MemberVo implements Serializable{
 	//직렬화/ 서로다른 컴퓨터에서 컴파일 하더라도 아래의 번호값이
 	//같으면 동일한 컴퓨터에서 컴파일한 파일로 인식
 	
-	public static long serialVerssionUID = 1L; 
+	public static long serialVerssionUID = 1L; //상수
 	
 	private String mId;
 	private String pwd;
@@ -22,7 +22,7 @@ public class MemberVo implements Serializable{
 	}
 	
 	@Override
-	public int hashCode() {
+	public int hashCode() {//동등객체와 값이 같은것과는 다른개념, 해시코드가 같으면 동등객체
 		return mId.hashCode() + phone.hashCode(); //추후변경
 	}
 	@Override
