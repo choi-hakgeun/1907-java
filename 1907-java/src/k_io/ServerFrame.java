@@ -2,13 +2,17 @@ package k_io;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -20,10 +24,19 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 public class ServerFrame extends JFrame implements Runnable {
 	
 	ServerSocket server;
+	
+	HTMLEditorKit kit = new HTMLEditorKit();
+	HTMLDocument doc = new HTMLDocument();
+	
+	List<ServerThread> clients = new ArrayList<ServerThread>();
+	DefaultListModel<String> model = new DefaultListModel<String>();
+	
 
 	private JPanel contentPane;
 	private JLabel lblNewLabel;
@@ -91,15 +104,26 @@ public class ServerFrame extends JFrame implements Runnable {
 		try {
 			int p = Integer.parseInt(port.getText());
 			server = new ServerSocket(p);
-			System.out.println("서버가 시작됨.");			
+			String html = "<font size = '3' color = #ff00ff'>서버가 시작됨</font>";
+			kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);			
+						
 			
 			while(true) {
-				System.out.println("접속대기.");
+				html = "[클라이언트 접속 대기중]";
+				kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
+				
 				Socket clientSocket = server.accept();
+				ServerThread st = new ServerThread(ServerFrame.this, clientSocket);
+				st.start();
+				clients.add(st);
+				
 				
 			    InetSocketAddress addr = (InetSocketAddress)clientSocket.getRemoteSocketAddress();
 			    
-			    System.out.println(addr.getHostName() + "이(가) 접속함.");
+			    html= "<div style = 'booder:5px solid #ff0000;padding:3px;width:150px'>" + addr.getAddress().getHostAddress() +"님이 접속함"+"</div>";
+			    kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
+			    
+			    textPane.scrollRectToVisible(new Rectangle(0, textPane.getHeight()+100, 1, 1));
 			}
 			
 		}catch(Exception ex) {
@@ -179,6 +203,7 @@ public class ServerFrame extends JFrame implements Runnable {
 	private JList getList() {
 		if (list == null) {
 			list = new JList();
+			list.setModel(model);
 		}
 		return list;
 	}
@@ -199,10 +224,12 @@ public class ServerFrame extends JFrame implements Runnable {
 		}
 		return scrollPane_1;
 	}
-	private JTextPane getTextPane() {
+	public JTextPane getTextPane() {
 		if (textPane == null) {
 			textPane = new JTextPane();
 			textPane.setContentType("text/html");
+			textPane.setEditorKit(kit);
+			textPane.setDocument(doc);
 		}
 		return textPane;
 	}
