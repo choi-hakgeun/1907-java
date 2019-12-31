@@ -43,6 +43,7 @@ public class ClientThread extends Thread{
 					
 					break;
 				case ChattData.LOGIN:
+					frame.model.clear();
 					for(int i = 0; i<cd.getUsers().size();i++) {
 						String mId = cd.getUsers().get(i);
 						frame.model.addElement(mId);
