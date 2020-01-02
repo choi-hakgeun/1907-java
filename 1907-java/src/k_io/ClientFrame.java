@@ -170,6 +170,11 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 			if(socket.isConnected()){
 				ct.oos.writeObject(cd);
 				ct.oos.flush();
+				
+			if(btnNewButton.isEnabled()== false) {
+				String html= "<div style = 'booder:5px solid #ff0000;padding:3px;width:150px'>"+message.getText()+"</div>";
+				kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);	
+			}
 			}
 		}catch(Exception ex) {
 			

@@ -154,7 +154,20 @@ public class ServerFrame extends JFrame implements Runnable {
 			int[] indexs = getList().getSelectedIndices();
 			sendAll(cd, indexs);
 		}
-		//append·Î 
+		if(btnNewButton.isEnabled()== false) {
+			try {
+				String html= "<div style = 'booder:5px solid #ff0000;padding:3px;width:150px'>"+message.getText()+"</div>";
+				kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//append·Î 
+			
+		}
 		message.setText("");
 		
 	}
