@@ -3,10 +3,13 @@ package k_io;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -22,9 +25,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과 관계된 관계
 	
@@ -129,6 +129,26 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 		ct.oos.writeObject(cd);
 		ct.oos.flush();
 	}
+	//1) 서버에게 logout 통보
+	//2) 자신의 유저목록을 모두 제거
+	//3) ClientThread 종료
+	public void logout() {
+		ChattData cd = new ChattData();
+		cd.setmId(tmId.getText());
+		cd.setCommand(ChattData.LOGOUT);
+		try {
+			ct.oos.writeObject(cd);
+			ct.oos.flush();
+			model.clear();
+			ct.stop();
+			socket.close();
+			socket = null;
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	public void send() {
 		try {
@@ -137,6 +157,16 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 			int cmd = ChattData.MESSAGE;
 			ChattData cd = new ChattData(mId, cmd, msg);
 			
+			if(comboBox.getSelectedIndex() ==1 ) {//귓속말
+				Object[] obj = getList().getSelectedValues();
+				List<String> users = new ArrayList<String>();
+				for(Object str : obj) {
+					users.add((String)str);
+				}
+				cd.setUsers(users);
+				cd.setCommand(ChattData.WHISPER);
+			}
+			
 			if(socket.isConnected()){
 				ct.oos.writeObject(cd);
 				ct.oos.flush();
@@ -144,6 +174,7 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 		}catch(Exception ex) {
 			
 		}
+		message.setText("");
 	}
 
 	private JLabel getLblNewLabel() {
@@ -199,7 +230,7 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 		}
 		return lblNewLabel_3;
 	}
-	private JTextField getTmId() {
+	public JTextField getTmId() {
 		if (tmId == null) {
 			tmId = new JTextField();
 			tmId.setText("hong");
@@ -224,6 +255,8 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 				public void actionPerformed(ActionEvent e) {
 					Thread t = new Thread(ClientFrame.this);
 					t.start();
+					btnNewButton.setEnabled(false);
+					btnNewButton_1.setEnabled(true);
 					
 				}
 			});
@@ -234,6 +267,13 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uC885\uB8CC");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					logout();
+					btnNewButton_1.setEnabled(false);
+					btnNewButton.setEnabled(true);
+				}
+			});
 			btnNewButton_1.setBounds(368, 31, 97, 23);
 		}
 		return btnNewButton_1;
@@ -247,7 +287,7 @@ public class ClientFrame extends JFrame implements Runnable { //is a 관계 상속과
 		}
 		return scrollPane;
 	}
-	private JList getList() {
+	public JList getList() {
 		if (list == null) {
 			list = new JList();
 			

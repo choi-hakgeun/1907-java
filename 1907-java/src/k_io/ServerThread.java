@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerThread extends Thread{
+	String mId;
 	
 	ServerFrame frame;
 	Socket socket;
@@ -33,6 +34,7 @@ public class ServerThread extends Thread{
 				
 				switch(cd.getCommand()) {
 				case ChattData.LOGIN :
+					this.mId = cd.getmId();//자신과 연결된 클라이언트의 mId저장
 					
 					html = cd.getmId() + "님이 접속하였습니다.";
 					frame.kit.insertHTML(frame.doc, frame.doc.getLength(), html, 0, 0, null);
@@ -51,7 +53,10 @@ public class ServerThread extends Thread{
 					frame.model.addElement(cd.getmId());
 					
 					//모든 접속자에게 현재 자신의 아이디를 전송
-					users.clear();
+					cd2 = new ChattData();
+					cd2.setCommand(ChattData.LOGIN);
+					users = new ArrayList<String>();
+					
 					users.add(cd.getmId());
 					cd2.setUsers(users);
 					sendAll(cd2);					
@@ -65,16 +70,47 @@ public class ServerThread extends Thread{
 							+cd.toString()
 							+"</div>";
 					frame.kit.insertHTML(frame.doc, frame.doc.getLength(), html, 0, 0, null);
-					
-					sendAll(cd);
+					sendAll(cd);					
 					
 					break;
+					
+				case ChattData.WHISPER:
+					int[] to = new int[cd.getUsers().size()];
+					int index = 0;
+					for(String str : cd.getUsers()) {
+						for(int i=0; i<frame.clients.size();i++) {
+							ServerThread st = frame.clients.get(i);
+							if(str.equals(st.mId)) {
+								to[index] = i;
+								index++;
+							}
+						}
+					}
+					frame.sendAll(cd, to);				
+					break;
+					
+				case ChattData.LOGOUT:
+					throw new Exception();
+					
 				}
 				frame.getTextPane().scrollRectToVisible(new Rectangle(0, frame.getTextPane().getHeight()+100, 1, 1));
 			}
 			
 		}catch(Exception ex) {
-			ex.printStackTrace();
+			int index = frame.clients.indexOf(ServerThread.this);
+			frame.model.remove(index);
+			frame.clients.remove(index);
+			//다른 모든 유저에서 해당 유저의 logout된 사실을 통보
+			ChattData cd = new ChattData();
+			cd.setCommand(ChattData.LOGOUT);
+			cd.setmId(this.mId);
+			try {
+				sendAll(cd);
+			}catch(Exception e) {
+				
+			}
+			
+			
 		}		
 		
 	}
