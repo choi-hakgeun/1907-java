@@ -3,6 +3,7 @@ package l_ftp;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -49,8 +50,7 @@ public class FileTransferReceive extends JPanel implements Runnable {
 		getStatus().setText("0/"+fileSize);
 		
 		try {
-			ServerSocket ss = new ServerSocket(port);
-			socket = ss.accept();
+			
 			Thread t = new Thread(this);
 			t.start();
 		}catch(Exception ex) {
@@ -66,7 +66,13 @@ public class FileTransferReceive extends JPanel implements Runnable {
 		int readSize = 0;
 		long readTotSize = 0;
 		try {
-		fos = new FileOutputStream(getFileName().getText());
+			ServerSocket ss = new ServerSocket(port);
+			socket = ss.accept();
+			
+			File dir = new File("c:/Temp"); //dir경로생성
+			if(!dir.exists()) dir.mkdir(); //dir경로가 없으면 생성해라
+			
+		fos = new FileOutputStream("c:/Temp/"+getFileName().getText());
 		is = socket.getInputStream();
 		
 		while((readSize = is.read(readData)) != -1) {

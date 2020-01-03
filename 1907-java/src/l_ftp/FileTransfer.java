@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,6 +15,8 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
 
 public class FileTransfer extends JPanel implements Runnable {
+	int port;
+	String ip;
 	long fileSize;
 	
 	private JLabel fileName;
@@ -47,19 +51,29 @@ public class FileTransfer extends JPanel implements Runnable {
 		byte[] readData = new byte[4096]; //한번에 4키로바이트만 읽어서 전송
 		int readSize = 0;
 		long readTotSize = 0;
+		getProgressBar().setValue(0);
+		
 		try {
-		FileInputStream fis = new FileInputStream(getFileName().getText());		
+		Socket socket = new Socket(ip, port);
+		OutputStream os = socket.getOutputStream();
+			
+		FileInputStream fis = new FileInputStream(getFileName().getText());
+		
+		
 		while((readSize = fis.read(readData)) != -1) {
 			readTotSize += readSize;
 			getStatus().setText(readTotSize + "/"+fileSize);
 			getProgressBar().setValue((int)((double)readTotSize/fileSize*100));
+			os.write(readData, 0, readSize);
+			
 		}
+		os.flush();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 	
-	private JLabel getFileName() {
+	public JLabel getFileName() {
 		if (fileName == null) {
 			fileName = new JLabel("\uD30C\uC77C\uBA85");
 			fileName.setBounds(12, 6, 426, 15);
