@@ -154,7 +154,7 @@ public class ServerFrame extends JFrame implements Runnable {
 			int[] indexs = getList().getSelectedIndices();
 			sendAll(cd, indexs);
 		}
-		if(btnNewButton.isEnabled()== false) {
+		if(btnNewButton.isEnabled()== false) {//서버를 시작해야 텍스트페인에 내용입력됨 
 			try {
 				String html= "<div style = 'booder:5px solid #ff0000;padding:3px;width:150px'>"+message.getText()+"</div>";
 				kit.insertHTML(doc, doc.getLength(), html, 0, 0, null);
@@ -165,10 +165,9 @@ public class ServerFrame extends JFrame implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//append로 
 			
 		}
-		message.setText("");
+		message.setText("");//텍스트필드에 작성 후 전송버튼을 누르면 텍스트필드내용 삭제
 		
 	}
 	public void sendAll(ChattData cd) {
