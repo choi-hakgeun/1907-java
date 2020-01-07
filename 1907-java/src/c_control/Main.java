@@ -18,7 +18,7 @@ public class Main {
 	//	new ForExam6();
 	//	new ForExam7();
 	//	new ForExam8();
-	//	new ForExam9();
+		new ForExam9();
 	//	new WhileExam1();
 	//	new WhileExam2();
 	//	new WhileExam3();
