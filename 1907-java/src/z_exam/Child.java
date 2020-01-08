@@ -23,6 +23,8 @@ public class Child extends MyClass {
 		c2.method2(mc); 
 		//Child c = mc; mc는 부모형, c는 자식형 자식형의 변수에 부모타입의 변수를 대입할수없다.
 		c2.method2(c);
+		
+		mc.method1(new s());
 	}
 	//상속을 통해 다형성을 구현
 	//다형성 부모타입의 변수에 자식클래스를 생성하여 대입하는형태,
