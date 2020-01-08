@@ -2,19 +2,22 @@ package z_exam;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MyInfo extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JButton btnNewButton;
-	private JButton btnNewButton_1;
+	private JButton btnABC;
 
 	/**
 	 * Launch the application.
@@ -36,19 +39,25 @@ public class MyInfo extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public MyInfo() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		contentPane.add(getBtnNewButton(), BorderLayout.CENTER);
-		contentPane.add(getBtnNewButton_1(), BorderLayout.NORTH);
+		contentPane.add(getBtnABC(), BorderLayout.NORTH);
+	}
+	public void job() { //synchronized블록 동시에 시작할 수 없음, 두번째로 들어오면 웨이트가 걸림. - 상호배타적 동기화
+		 //A (비동기)
+		synchronized(this) { //this는 자기자신
+			//B (동기)
+		}
 	}
 
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
-			btnNewButton = new JButton("New button");
+			btnNewButton = new JButton("123");
 			
 			
 			btnNewButton.addActionListener(this);
@@ -58,14 +67,21 @@ public class MyInfo extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		try {
+			SubThread st = new SubThread();
+			Thread t = new Thread(st);
+			t.setDaemon(true);
+			t.start();
+		}catch(Exception ex) {
+			
+		}
 		
 	}
-	private JButton getBtnNewButton_1() {
-		if (btnNewButton_1 == null) {
-			btnNewButton_1 = new JButton("New button");
-			btnNewButton_1.addActionListener(this);
+	private JButton getBtnABC() {
+		if (btnABC == null) {
+			btnABC = new JButton("abc");
+			btnABC.addActionListener(this);
 		}
-		return btnNewButton_1;
+		return btnABC;
 	}
 }
