@@ -143,7 +143,7 @@ public class MemberInsert extends JInternalFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC800\uC7A5");
-			btnNewButton.setBounds(73, 148, 97, 23);
+			btnNewButton.setBounds(73, 148, 116, 23);
 		}
 		return btnNewButton;
 	}

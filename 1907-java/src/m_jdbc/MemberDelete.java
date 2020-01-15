@@ -155,8 +155,13 @@ public class MemberDelete extends JInternalFrame {
 	}
 	private JButton getButton_1() {
 		if (button_1 == null) {
-			button_1 = new JButton("\uC800\uC7A5");
-			button_1.setBounds(77, 170, 97, 23);
+			button_1 = new JButton("\uC0AD\uC81C");
+			button_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+			button_1.setBounds(77, 170, 116, 23);
 		}
 		return button_1;
 	}
