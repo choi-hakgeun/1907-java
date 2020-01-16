@@ -17,7 +17,19 @@ public class ProcedureCall {
 		
 		String a2 = cst.getString(2);
 		System.out.println(a2);
+		
+		System.out.println("---------------------");
+		
+		sql = "{call BBB(?,?,?)}";
+		cst = conn.prepareCall(sql);
+		cst.setInt(1, 123);
+		cst.setInt(2, 432);
+		cst.registerOutParameter(3, Types.INTEGER);
+		
+		cst.executeQuery();
+		
+		int r = cst.getInt(3);
+		System.out.println("r : " + r);
 
 	}
-
 }

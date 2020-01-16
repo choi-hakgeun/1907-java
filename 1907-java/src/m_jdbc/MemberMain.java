@@ -26,6 +26,11 @@ public class MemberMain extends JFrame {
 	private JMenuItem mntmNewMenuItem_1;
 	private JMenu mnSql;
 	private JMenuItem mntmNewMenuItem_2;
+	private JMenu mnNewMenu_1;
+	private JMenuItem mntmNewMenuItem_3;
+	private JMenuItem mntmNewMenuItem_4;
+	private JMenuItem mntmNewMenuItem_5;
+	private JMenuItem mntmNewMenuItem_6;
 
 	/**
 	 * Launch the application.
@@ -60,6 +65,7 @@ public class MemberMain extends JFrame {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnNewMenu());
+			menuBar.add(getMnNewMenu_1());
 			menuBar.add(getMnSql());
 		}
 		return menuBar;
@@ -145,5 +151,67 @@ public class MemberMain extends JFrame {
 			});
 		}
 		return mntmNewMenuItem_2;
+	}
+	private JMenu getMnNewMenu_1() {
+		if (mnNewMenu_1 == null) {
+			mnNewMenu_1 = new JMenu("\uC131\uC801\uAD00\uB9AC");
+			mnNewMenu_1.add(getMntmNewMenuItem_3());
+			mnNewMenu_1.add(getMntmNewMenuItem_4());
+			mnNewMenu_1.add(getMntmNewMenuItem_5());
+			mnNewMenu_1.add(getMntmNewMenuItem_6());
+		}
+		return mnNewMenu_1;
+	}
+	private JMenuItem getMntmNewMenuItem_3() {
+		if (mntmNewMenuItem_3 == null) {
+			mntmNewMenuItem_3 = new JMenuItem("\uC131\uC801\uC815\uBCF4\uC785\uB825");
+			mntmNewMenuItem_3.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ScoreInput panal = new ScoreInput();
+					contentPane.add(panal);
+					panal.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_3;
+	}
+	private JMenuItem getMntmNewMenuItem_4() {
+		if (mntmNewMenuItem_4 == null) {
+			mntmNewMenuItem_4 = new JMenuItem("\uC131\uC801\uC815\uBCF4\uC218\uC815");
+			mntmNewMenuItem_4.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ScoreUpdate panal = new ScoreUpdate();
+					contentPane.add(panal);
+					panal.toFront();				
+				}
+			});
+		}
+		return mntmNewMenuItem_4;
+	}
+	private JMenuItem getMntmNewMenuItem_5() {
+		if (mntmNewMenuItem_5 == null) {
+			mntmNewMenuItem_5 = new JMenuItem("\uC131\uC801\uC815\uBCF4\uC0AD\uC81C");
+			mntmNewMenuItem_5.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ScoreDelete panal = new ScoreDelete();
+					contentPane.add(panal);
+					panal.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_5;
+	}
+	private JMenuItem getMntmNewMenuItem_6() {
+		if (mntmNewMenuItem_6 == null) {
+			mntmNewMenuItem_6 = new JMenuItem("\uC131\uC801\uC815\uBCF4\uC870\uD68C");
+			mntmNewMenuItem_6.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ScoreSelect panal = new ScoreSelect();
+					contentPane.add(panal);
+					panal.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_6;
 	}
 }
