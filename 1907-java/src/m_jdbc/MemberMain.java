@@ -24,6 +24,8 @@ public class MemberMain extends JFrame {
 	private JMenuItem menuItem_1;
 	private JMenuItem mntmNewMenuItem;
 	private JMenuItem mntmNewMenuItem_1;
+	private JMenu mnSql;
+	private JMenuItem mntmNewMenuItem_2;
 
 	/**
 	 * Launch the application.
@@ -58,6 +60,7 @@ public class MemberMain extends JFrame {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnNewMenu());
+			menuBar.add(getMnSql());
 		}
 		return menuBar;
 	}
@@ -122,5 +125,25 @@ public class MemberMain extends JFrame {
 			});
 		}
 		return mntmNewMenuItem_1;
+	}
+	private JMenu getMnSql() {
+		if (mnSql == null) {
+			mnSql = new JMenu("Query");
+			mnSql.add(getMntmNewMenuItem_2());
+		}
+		return mnSql;
+	}
+	private JMenuItem getMntmNewMenuItem_2() {
+		if (mntmNewMenuItem_2 == null) {
+			mntmNewMenuItem_2 = new JMenuItem("sql");
+			mntmNewMenuItem_2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Query panal = new Query();
+					contentPane.add(panal);
+					panal.toFront();
+				}
+			});
+		}
+		return mntmNewMenuItem_2;
 	}
 }
