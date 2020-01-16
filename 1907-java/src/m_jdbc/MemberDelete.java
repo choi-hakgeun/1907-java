@@ -27,7 +27,7 @@ public class MemberDelete extends JInternalFrame {
 	private JLabel label_4;
 	private JComboBox tgrade;
 	private JButton button_1;
-	private JLabel label_5;
+	private JLabel status;
 	private JSeparator separator;
 
 	/**
@@ -67,7 +67,7 @@ public class MemberDelete extends JInternalFrame {
 		getContentPane().add(getLabel_4());
 		getContentPane().add(getTgrade());
 		getContentPane().add(getButton_1());
-		getContentPane().add(getLabel_5());
+		getContentPane().add(getStatus());
 		getContentPane().add(getSeparator());
 
 	}
@@ -101,7 +101,15 @@ public class MemberDelete extends JInternalFrame {
 			button = new JButton("\uAC80\uC0C9");
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {				
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					MemberDao dao = new MemberDao();
+					String mId = tmId.getText();
+					MemberVo vo  = dao.search(mId);
 					
+					tmId.setText( vo.getmId());
+					tmName.setText( vo.getmId() );
+					trDate.setText(sdf.format(vo.getrDate()));
+					tgrade.setSelectedIndex(vo.getGrade()-1);
 				}
 			});
 			button.setBounds(205, 39, 97, 23);
@@ -155,20 +163,38 @@ public class MemberDelete extends JInternalFrame {
 	}
 	private JButton getButton_1() {
 		if (button_1 == null) {
-			button_1 = new JButton("\uC800\uC7A5");
-			button_1.setBounds(77, 170, 97, 23);
+			button_1 = new JButton("\uC0AD\uC81C");
+			button_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String mId = tmId.getText();
+					
+					MemberDao dao = new MemberDao();
+					int cnt = dao.delete(mId);
+					
+					if(cnt>0) status.setText("자료가 삭제되었습니다.");
+					else      status.setText("삭제중 오류발생");
+					
+					tmName.setText("");
+					trDate.setText("");
+					tgrade.setSelectedIndex(0);
+					tmId.requestFocus();
+					tmId.selectAll();				
+					
+				}
+			});
+			button_1.setBounds(77, 170, 116, 23);
 		}
 		return button_1;
 	}
-	private JLabel getLabel_5() {
-		if (label_5 == null) {
-			label_5 = new JLabel("New label");
-			label_5.setOpaque(true);
-			label_5.setHorizontalAlignment(SwingConstants.CENTER);
-			label_5.setBackground(new Color(152, 251, 152));
-			label_5.setBounds(12, 203, 360, 35);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("New label");
+			status.setOpaque(true);
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBackground(new Color(152, 251, 152));
+			status.setBounds(12, 203, 360, 35);
 		}
-		return label_5;
+		return status;
 	}
 	private JSeparator getSeparator() {
 		if (separator == null) {

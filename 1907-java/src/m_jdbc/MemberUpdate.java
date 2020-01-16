@@ -172,7 +172,7 @@ public class MemberUpdate extends JInternalFrame {
 						e1.printStackTrace();
 					}						
 					
-					/* 실행가능 
+					/* 실행가능한 다른코드 
 					MemberDao dao = new MemberDao();
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					try {
