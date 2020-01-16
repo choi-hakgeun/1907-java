@@ -2,6 +2,9 @@ package m_jdbc;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -14,18 +17,19 @@ import javax.swing.SwingConstants;
 
 public class MemberInsert extends JInternalFrame {
 	List<MemberVo> list;
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel label;
 	private JLabel label_1;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JComboBox comboBox;
+	private JTextField tmId;
+	private JTextField tmName;
+	private JTextField trDate;
+	private JComboBox tgrade;
 	private JButton btnNewButton;
-	private JLabel lblNewLabel_3;
+	private JLabel status;
 
 	/**
 	 * Launch the application.
@@ -58,12 +62,12 @@ public class MemberInsert extends JInternalFrame {
 		getContentPane().add(getLblNewLabel_2());
 		getContentPane().add(getLabel());
 		getContentPane().add(getLabel_1());
-		getContentPane().add(getTextField());
-		getContentPane().add(getTextField_1());
-		getContentPane().add(getTextField_2());
-		getContentPane().add(getComboBox());
+		getContentPane().add(getTmId());
+		getContentPane().add(getTmName());
+		getContentPane().add(getTrDate());
+		getContentPane().add(getTgrade());
 		getContentPane().add(getBtnNewButton());
-		getContentPane().add(getLblNewLabel_3());
+		getContentPane().add(getStatus());
 
 	}
 	
@@ -108,53 +112,77 @@ public class MemberInsert extends JInternalFrame {
 		}
 		return label_1;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(73, 40, 116, 21);
-			textField.setColumns(10);
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setBounds(73, 40, 116, 21);
+			tmId.setColumns(10);
 		}
-		return textField;
+		return tmId;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(73, 65, 116, 21);
-			textField_1.setColumns(10);
+	private JTextField getTmName() {
+		if (tmName == null) {
+			tmName = new JTextField();
+			tmName.setBounds(73, 65, 116, 21);
+			tmName.setColumns(10);
 		}
-		return textField_1;
+		return tmName;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(73, 93, 116, 21);
-			textField_2.setColumns(10);
+	private JTextField getTrDate() {
+		if (trDate == null) {
+			trDate = new JTextField();
+			trDate.setBounds(73, 93, 116, 21);
+			trDate.setColumns(10);
 		}
-		return textField_2;
+		return trDate;
 	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"1 \uD559\uB144", "2 \uD559\uB144", "3 \uD559\uB144", "4 \uD559\uB144", "5 \uD559\uB144", "6 \uD559\uB144", "7 \uD559\uB144", "8 \uD559\uB144", "9 \uD559\uB144", "10 \uD559\uB144"}));
-			comboBox.setBounds(73, 117, 116, 21);
+	private JComboBox getTgrade() {
+		if (tgrade == null) {
+			tgrade = new JComboBox();
+			tgrade.setModel(new DefaultComboBoxModel(new String[] {"1 \uD559\uB144", "2 \uD559\uB144", "3 \uD559\uB144", "4 \uD559\uB144", "5 \uD559\uB144", "6 \uD559\uB144", "7 \uD559\uB144", "8 \uD559\uB144", "9 \uD559\uB144", "10 \uD559\uB144"}));
+			tgrade.setBounds(73, 117, 116, 21);
 		}
-		return comboBox;
+		return tgrade;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC800\uC7A5");
-			btnNewButton.setBounds(73, 148, 97, 23);
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					MemberDao dao = new MemberDao();
+					MemberVo vo = new MemberVo();
+					
+					try {
+						vo.setmId( tmId.getText() );
+						vo.setmName(tmName.getText() );
+						vo.setrDate(sdf.parse(trDate.getText()) );
+						vo.setGrade(tgrade.getSelectedIndex()+1);
+						
+						int cnt = dao.insert(vo);
+						if(cnt>0) {
+							status.setText("자료가 입력되었습니다.");
+							
+						}else {
+							status.setText("입력중 오류 발생");
+						}						
+					}catch(Exception ex){
+						ex.printStackTrace();
+					}
+				}
+			});
+			btnNewButton.setBounds(73, 148, 116, 23);
 		}
 		return btnNewButton;
 	}
-	private JLabel getLblNewLabel_3() {
-		if (lblNewLabel_3 == null) {
-			lblNewLabel_3 = new JLabel("New label");
-			lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_3.setBackground(new Color(152, 251, 152));
-			lblNewLabel_3.setOpaque(true);
-			lblNewLabel_3.setBounds(12, 204, 360, 36);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("New label");
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBackground(new Color(152, 251, 152));
+			status.setOpaque(true);
+			status.setBounds(12, 204, 360, 36);
 		}
-		return lblNewLabel_3;
+		return status;
 	}
 }

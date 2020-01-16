@@ -28,7 +28,7 @@ public class MemberUpdate extends JInternalFrame {
 	private JLabel label_4;
 	private JComboBox tgrade;
 	private JButton button;
-	private JLabel label_5;
+	private JLabel status;
 	private JButton btnNewButton;
 	private JSeparator separator;
 
@@ -68,7 +68,7 @@ public class MemberUpdate extends JInternalFrame {
 		getContentPane().add(getLabel_4());
 		getContentPane().add(getTgrade());
 		getContentPane().add(getButton());
-		getContentPane().add(getLabel_5());
+		getContentPane().add(getStatus());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getSeparator());
 
@@ -149,8 +149,32 @@ public class MemberUpdate extends JInternalFrame {
 			button = new JButton("\uC218\uC815");
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					//강사님코드
 					MemberDao dao = new MemberDao();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					MemberVo vo = new MemberVo();
+					Date d;
+					try {
+						d = sdf.parse(trDate.getText());
+						
+						vo.setmId(tmId.getText());
+						vo.setmName(tmName.getText());
+						vo.setrDate(d);
+						vo.setGrade(tgrade.getSelectedIndex()+1);
+						
+						int cnt = dao.update(vo);
+						if(cnt>0) {
+							status.setText("정상적으로 수정됨.");
+						}else {
+							status.setText("수정중 오류 발생.");
+						}
+					}catch (ParseException e1) {
+						e1.printStackTrace();
+					}						
+					
+					/* 실행가능 
+					MemberDao dao = new MemberDao();
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					try {
 						String mId = tmId.getText();
 						String mName = tmName.getText();
@@ -161,7 +185,7 @@ public class MemberUpdate extends JInternalFrame {
 						dao.update(vo);
 					} catch (ParseException e1) {
 						e1.printStackTrace();
-					}
+					}*/
 					
 					
 				}
@@ -170,15 +194,15 @@ public class MemberUpdate extends JInternalFrame {
 		}
 		return button;
 	}
-	private JLabel getLabel_5() {
-		if (label_5 == null) {
-			label_5 = new JLabel("New label");
-			label_5.setOpaque(true);
-			label_5.setHorizontalAlignment(SwingConstants.CENTER);
-			label_5.setBackground(new Color(152, 251, 152));
-			label_5.setBounds(12, 205, 360, 35);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("New label");
+			status.setOpaque(true);
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBackground(new Color(152, 251, 152));
+			status.setBounds(12, 205, 360, 35);
 		}
-		return label_5;
+		return status;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
@@ -192,7 +216,7 @@ public class MemberUpdate extends JInternalFrame {
 					
 					tmName.setText( vo.getmName() );
 					trDate.setText(sdf.format(vo.getrDate()) ); 
-					tgrade.setSelectedIndex( vo.getGrade());
+					tgrade.setSelectedIndex( vo.getGrade()-1);//인덱스는 0베이스이기때문에 -1을 해줘야함.
 				}
 			});
 			btnNewButton.setBounds(205, 39, 97, 23);
