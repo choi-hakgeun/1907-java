@@ -14,6 +14,8 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MemberInsert extends JInternalFrame {
 	List<MemberVo> list;
@@ -150,6 +152,7 @@ public class MemberInsert extends JInternalFrame {
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
+<<<<<<< HEAD
 					MemberDao dao = new MemberDao();
 					MemberVo vo = new MemberVo();
 					
@@ -169,6 +172,8 @@ public class MemberInsert extends JInternalFrame {
 					}catch(Exception ex){
 						ex.printStackTrace();
 					}
+=======
+>>>>>>> refs/remotes/origin/master
 				}
 			});
 			btnNewButton.setBounds(73, 148, 116, 23);
