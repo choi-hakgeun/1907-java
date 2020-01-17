@@ -1,17 +1,24 @@
 package m_jdbc;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class ScoreSelect extends JInternalFrame {
+	ScoreDao dao = new ScoreDao();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private JLabel label;
 	private JButton btnNewButton;
 	private JTextField textField;
@@ -64,6 +71,20 @@ public class ScoreSelect extends JInternalFrame {
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uC870\uD68C");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String find = textField.getText();
+					List<ScoreVo> list = dao.select(find);
+					
+					textArea.setText("");
+					for(ScoreVo vo : list) {
+						textArea.append( vo.toString() );
+					}
+					
+					
+				}
+			});
 			btnNewButton.setBounds(325, 49, 97, 23);
 		}
 		return btnNewButton;

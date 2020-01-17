@@ -106,6 +106,7 @@ public class ScoreUpdate extends JInternalFrame {
 	private JTextField getTmName() {
 		if (tmName == null) {
 			tmName = new JTextField();
+			tmName.setEnabled(false);
 			tmName.setColumns(10);
 			tmName.setBounds(59, 109, 116, 21);
 		}
@@ -160,24 +161,21 @@ public class ScoreUpdate extends JInternalFrame {
 		if (button == null) {
 			button = new JButton("\uC218\uC815");
 			button.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//ScoreDao dao = new ScoreDao(); 
-					ScoreVo vo  = new ScoreVo();
-					Date d;
-					try {
-						d = sdf.parse(trDate.getText());
+				public void actionPerformed(ActionEvent e) {					
+					ScoreVo vo  = new ScoreVo();					
+					try {					
 						
-						vo.setmId(tmId.getText());						
-						vo.setrDate(d);
-						vo.setSubject(tsubject.getText());
+						vo.setSerial( Integer.parseInt(tserial.getText()) );												
+						vo.setrDate( sdf.parse(trDate.getText()) );
+						vo.setSubject( tsubject.getText());
+						vo.setScore(Integer.parseInt(tscore.getText()));
 						
 						int cnt = dao.update(vo);
 						if(cnt>0) {
-							status.setText("정상적으로 수정됨.");
+							status.setText("정상적으로 수정되었습니다.");
 						}else {
 							status.setText("수정중 오류 발생.");
-						}
-						
+						}						
 					}catch(Exception ex) {
 						ex.printStackTrace();
 					}
@@ -214,6 +212,7 @@ public class ScoreUpdate extends JInternalFrame {
 	private JTextField getTmId() {
 		if (tmId == null) {
 			tmId = new JTextField();
+			tmId.setEnabled(false);
 			tmId.setBounds(59, 84, 116, 21);
 			tmId.setColumns(10);
 		}
@@ -239,7 +238,7 @@ public class ScoreUpdate extends JInternalFrame {
 			btnNewButton = new JButton("\uC870\uD68C");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//ScoreDao dao = new ScoreDao();
+					
 					int serial = Integer.parseInt(tserial.getText());
 					ScoreVo vo = dao.search(serial);
 										

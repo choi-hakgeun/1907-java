@@ -151,8 +151,7 @@ public class MemberInsert extends JInternalFrame {
 			btnNewButton = new JButton("\uC800\uC7A5");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-<<<<<<< HEAD
+
 					MemberDao dao = new MemberDao();
 					MemberVo vo = new MemberVo();
 					
@@ -172,8 +171,6 @@ public class MemberInsert extends JInternalFrame {
 					}catch(Exception ex){
 						ex.printStackTrace();
 					}
-=======
->>>>>>> refs/remotes/origin/master
 				}
 			});
 			btnNewButton.setBounds(73, 148, 116, 23);

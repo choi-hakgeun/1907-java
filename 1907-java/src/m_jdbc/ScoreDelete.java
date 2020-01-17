@@ -9,23 +9,30 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
 
 public class ScoreDelete extends JInternalFrame {
+	
+	ScoreDao dao = new ScoreDao();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private JLabel label;
 	private JLabel label_1;
-	private JTextField textField;
+	private JTextField tserial;
 	private JButton button;
 	private JSeparator separator;
 	private JLabel label_2;
-	private JTextField textField_1;
+	private JTextField tmId;
 	private JLabel label_3;
-	private JTextField textField_2;
+	private JTextField tmName;
 	private JLabel label_4;
-	private JTextField textField_3;
+	private JTextField trDate;
 	private JLabel label_5;
-	private JTextField textField_4;
+	private JTextField tsubject;
 	private JLabel label_6;
-	private JTextField textField_5;
+	private JTextField tscore;
 	private JButton button_1;
 	private JLabel status;
 
@@ -57,19 +64,19 @@ public class ScoreDelete extends JInternalFrame {
 		getContentPane().setLayout(null);
 		getContentPane().add(getLabel());
 		getContentPane().add(getLabel_1());
-		getContentPane().add(getTextField());
+		getContentPane().add(getTserial());
 		getContentPane().add(getButton());
 		getContentPane().add(getSeparator());
 		getContentPane().add(getLabel_2());
-		getContentPane().add(getTextField_1());
+		getContentPane().add(getTmId());
 		getContentPane().add(getLabel_3());
-		getContentPane().add(getTextField_2());
+		getContentPane().add(getTmName());
 		getContentPane().add(getLabel_4());
-		getContentPane().add(getTextField_3());
+		getContentPane().add(getTrDate());
 		getContentPane().add(getLabel_5());
-		getContentPane().add(getTextField_4());
+		getContentPane().add(getTsubject());
 		getContentPane().add(getLabel_6());
-		getContentPane().add(getTextField_5());
+		getContentPane().add(getTscore());
 		getContentPane().add(getButton_1());
 		getContentPane().add(getStatus());
 
@@ -92,17 +99,33 @@ public class ScoreDelete extends JInternalFrame {
 		}
 		return label_1;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(59, 46, 116, 21);
+	private JTextField getTserial() {
+		if (tserial == null) {
+			tserial = new JTextField();
+			tserial.setColumns(10);
+			tserial.setBounds(59, 46, 116, 21);
 		}
-		return textField;
+		return tserial;
 	}
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("\uC870\uD68C");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					int serial = Integer.parseInt(tserial.getText());
+					ScoreVo vo = dao.search(serial);
+										
+					if(vo == null) {
+						status.setText("자료가 없습니다.");
+					}else {
+						tmId.setText( vo.getmId() );
+						tmName.setText(vo.getmName());
+						trDate.setText(sdf.format(vo.getrDate()) );
+						tsubject.setText( vo.getSubject() );
+						tscore.setText(vo.getScore()+"");						
+					}
+				}
+			});
 			button.setBounds(187, 45, 97, 23);
 		}
 		return button;
@@ -121,13 +144,13 @@ public class ScoreDelete extends JInternalFrame {
 		}
 		return label_2;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(59, 84, 116, 21);
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setColumns(10);
+			tmId.setBounds(59, 84, 116, 21);
 		}
-		return textField_1;
+		return tmId;
 	}
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
@@ -136,13 +159,13 @@ public class ScoreDelete extends JInternalFrame {
 		}
 		return label_3;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setColumns(10);
-			textField_2.setBounds(59, 109, 116, 21);
+	private JTextField getTmName() {
+		if (tmName == null) {
+			tmName = new JTextField();
+			tmName.setColumns(10);
+			tmName.setBounds(59, 109, 116, 21);
 		}
-		return textField_2;
+		return tmName;
 	}
 	private JLabel getLabel_4() {
 		if (label_4 == null) {
@@ -151,13 +174,13 @@ public class ScoreDelete extends JInternalFrame {
 		}
 		return label_4;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setColumns(10);
-			textField_3.setBounds(59, 134, 116, 21);
+	private JTextField getTrDate() {
+		if (trDate == null) {
+			trDate = new JTextField();
+			trDate.setColumns(10);
+			trDate.setBounds(59, 134, 116, 21);
 		}
-		return textField_3;
+		return trDate;
 	}
 	private JLabel getLabel_5() {
 		if (label_5 == null) {
@@ -166,13 +189,13 @@ public class ScoreDelete extends JInternalFrame {
 		}
 		return label_5;
 	}
-	private JTextField getTextField_4() {
-		if (textField_4 == null) {
-			textField_4 = new JTextField();
-			textField_4.setColumns(10);
-			textField_4.setBounds(59, 159, 116, 21);
+	private JTextField getTsubject() {
+		if (tsubject == null) {
+			tsubject = new JTextField();
+			tsubject.setColumns(10);
+			tsubject.setBounds(59, 159, 116, 21);
 		}
-		return textField_4;
+		return tsubject;
 	}
 	private JLabel getLabel_6() {
 		if (label_6 == null) {
@@ -181,17 +204,36 @@ public class ScoreDelete extends JInternalFrame {
 		}
 		return label_6;
 	}
-	private JTextField getTextField_5() {
-		if (textField_5 == null) {
-			textField_5 = new JTextField();
-			textField_5.setColumns(10);
-			textField_5.setBounds(59, 184, 116, 21);
+	private JTextField getTscore() {
+		if (tscore == null) {
+			tscore = new JTextField();
+			tscore.setColumns(10);
+			tscore.setBounds(59, 184, 116, 21);
 		}
-		return textField_5;
+		return tscore;
 	}
 	private JButton getButton_1() {
 		if (button_1 == null) {
 			button_1 = new JButton("\uC0AD\uC81C");
+			button_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int serial = Integer.parseInt( tserial.getText() );
+					int cnt = dao.delete(serial);
+					
+					if(cnt>0) status.setText("자료가 삭제되었습니다.");
+					else      status.setText("자료 삭제 중 오류 발생");
+					
+					tmId.setText("");
+					tmName.setText("");
+					trDate.setText("");
+					tsubject.setText("");
+					tscore.setText("");
+					tserial.requestFocus();
+					tserial.selectAll();
+					
+				}
+			});
 			button_1.setBounds(59, 215, 116, 23);
 		}
 		return button_1;
