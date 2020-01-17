@@ -11,6 +11,9 @@ public class SuperAirPlaneExam {
 		s.flyMode = SuperAirPlane.NORMAL;//1
 		s.fly();//1
 		s.land();
+		
+		s.test();
+		
 	}
 
 }

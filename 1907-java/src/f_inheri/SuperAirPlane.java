@@ -10,6 +10,7 @@ public class SuperAirPlane extends AirPlane { //자식이 만들어지기 전에 항성 부모
 	public SuperAirPlane() {
 		super(50);
 		System.out.println("초음속 비행기");
+		land();
 	}
 	
 	@Override
@@ -19,6 +20,12 @@ public class SuperAirPlane extends AirPlane { //자식이 만들어지기 전에 항성 부모
 		}else{
 			System.out.println("초음속비행");
 		}
+	}
+	
+	public void test() {
+		flyMode = 2;
+		super.fly();
+		this.fly();
 	}
 
 }
