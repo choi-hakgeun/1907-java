@@ -166,7 +166,6 @@ public class MemberDelete extends JInternalFrame {
 			button_1 = new JButton("\uC0AD\uC81C");
 			button_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 					String mId = tmId.getText();
 					
 					MemberDao dao = new MemberDao();
@@ -179,10 +178,7 @@ public class MemberDelete extends JInternalFrame {
 					trDate.setText("");
 					tgrade.setSelectedIndex(0);
 					tmId.requestFocus();
-					tmId.selectAll();				
-=======
->>>>>>> refs/remotes/origin/master
-					
+					tmId.selectAll();		
 				}
 			});
 			button_1.setBounds(77, 170, 116, 23);
