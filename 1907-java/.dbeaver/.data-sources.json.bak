@@ -29,6 +29,19 @@
 			}
 		}
 	},
+	"virtual-models": {
+		"oracle_thin-16fb16688e7-5076b4bb289e55a3": {
+			"HR": {
+				":EMPLOYEES": {
+					"properties": {
+						"erd.diagram.state": {
+							"serialized": "<diagram version=\"1\" name=\"EMPLOYEES\" time=\"202001171711\"><entities><data-source id=\"oracle_thin-16fb16688e7-5076b4bb289e55a3\"><entity id=\"1\" name=\"EMPLOYEES\" fq-name=\"HR.EMPLOYEES\" order=\"0\" color-bg=\"255,128,64\" x=\"798\" y=\"20\"><path name=\"HR\"/></entity><entity id=\"2\" name=\"DEPARTMENTS\" fq-name=\"HR.DEPARTMENTS\" order=\"1\" x=\"186\" y=\"86\"><path name=\"HR\"/></entity><entity id=\"3\" name=\"JOBS\" fq-name=\"HR.JOBS\" order=\"2\" x=\"525\" y=\"362\"><path name=\"HR\"/></entity><entity id=\"4\" name=\"JOB_HISTORY\" fq-name=\"HR.JOB_HISTORY\" order=\"3\" x=\"20\" y=\"153\"><path name=\"HR\"/></entity></data-source></entities><relations><relation name=\"EMP_MANAGER_FK\" fq-name=\"HR.EMPLOYEES.EMP_MANAGER_FK\" type=\"fk\" pk-ref=\"1\" fk-ref=\"1\"><bend type=\"rel\" x=\"968\" y=\"264\"/><bend type=\"rel\" x=\"866\" y=\"325\"/></relation><relation name=\"DEPT_MGR_FK\" fq-name=\"HR.DEPARTMENTS.DEPT_MGR_FK\" type=\"fk\" pk-ref=\"1\" fk-ref=\"2\"/><relation name=\"JHIST_EMP_FK\" fq-name=\"HR.JOB_HISTORY.JHIST_EMP_FK\" type=\"fk\" pk-ref=\"1\" fk-ref=\"4\"/><relation name=\"EMP_DEPT_FK\" fq-name=\"HR.EMPLOYEES.EMP_DEPT_FK\" type=\"fk\" pk-ref=\"2\" fk-ref=\"1\"/><relation name=\"JHIST_DEPT_FK\" fq-name=\"HR.JOB_HISTORY.JHIST_DEPT_FK\" type=\"fk\" pk-ref=\"2\" fk-ref=\"4\"/><relation name=\"EMP_JOB_FK\" fq-name=\"HR.EMPLOYEES.EMP_JOB_FK\" type=\"fk\" pk-ref=\"3\" fk-ref=\"1\"/><relation name=\"JHIST_JOB_FK\" fq-name=\"HR.JOB_HISTORY.JHIST_JOB_FK\" type=\"fk\" pk-ref=\"3\" fk-ref=\"4\"><bend type=\"abs\" x=\"186\" y=\"285\"/><bend type=\"abs\" x=\"374\" y=\"285\"/></relation></relations></diagram>"
+						}
+					}
+				}
+			}
+		}
+	},
 	"connection-types": {
 		"dev": {
 			"name": "Development",

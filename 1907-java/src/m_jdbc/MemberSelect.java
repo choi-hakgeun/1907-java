@@ -72,7 +72,8 @@ public class MemberSelect extends JInternalFrame {
 					MemberDao dao = new MemberDao();
 					String f = find.getText();
 					List<MemberVo> list = dao.select(f);
-					
+					System.out.println(f);
+					System.out.println(list);
 					textArea.setText("");
 					for(MemberVo vo : list) {
 						textArea.append(vo.toString());						

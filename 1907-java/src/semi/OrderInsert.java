@@ -16,7 +16,7 @@ public class OrderInsert extends JInternalFrame {
 	private JScrollPane scrollPane;
 	private JList list;
 	private JScrollPane scrollPane_1;
-	private JTextField txtId;
+	private JTextField tmId;
 	private JLabel lblNewLabel_1;
 	private JList list_1;
 	private JButton btnNewButton;
@@ -44,19 +44,26 @@ public class OrderInsert extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public OrderInsert() {
+		super("메뉴 선택", false, true, true, true);
+		setVisible(true);
+		
 		setTitle("\uC8FC\uBB38\uC811\uC218");
 		setBounds(100, 100, 600, 400);
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblNewLabel());
 		getContentPane().add(getScrollPane());
 		getContentPane().add(getScrollPane_1());
-		getContentPane().add(getTxtId());
+		getContentPane().add(getTmId());
 		getContentPane().add(getLblNewLabel_1());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getButton());
 		getContentPane().add(getButton_1());
 		getContentPane().add(getLblNewLabel_2());
 
+	}
+	public OrderInsert(String foodName, int salePrice, String isSales) {
+		//is체크되어있는 메뉴만 판매가능
+		if(equals(isSales))
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
@@ -87,16 +94,16 @@ public class OrderInsert extends JInternalFrame {
 		}
 		return scrollPane_1;
 	}
-	private JTextField getTxtId() {
-		if (txtId == null) {
-			txtId = new JTextField();
-			txtId.setHorizontalAlignment(SwingConstants.CENTER);
-			txtId.setEnabled(false);
-			txtId.setText("\uD68C\uC6D0 ID");
-			txtId.setBounds(352, 7, 116, 21);
-			txtId.setColumns(10);
+	private JTextField getTmId() {//로그인아이디 매개변수 받아와서 매개변수에 넣기
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setHorizontalAlignment(SwingConstants.CENTER);
+			tmId.setEnabled(false);
+			tmId.setText("\uD68C\uC6D0 ID");
+			tmId.setBounds(352, 7, 116, 21);
+			tmId.setColumns(10);
 		}
-		return txtId;
+		return tmId;
 	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {

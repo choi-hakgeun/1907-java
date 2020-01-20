@@ -76,7 +76,8 @@ public class ScoreSelect extends JInternalFrame {
 					
 					String find = textField.getText();
 					List<ScoreVo> list = dao.select(find);
-					
+					System.out.println(find);
+					System.out.println(list);
 					textArea.setText("");
 					for(ScoreVo vo : list) {
 						textArea.append( vo.toString() );

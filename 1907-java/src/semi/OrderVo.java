@@ -5,22 +5,20 @@ import java.util.Date;
 
 public class OrderVo {
 	int oNum;
-	String mId;	
-	String mName;
 	Date oDate;
 	String oName;
 	int oea;
 	int oPrice;
+	String mId;
 	
 	public OrderVo() {}
-	public OrderVo(int on, String id, String mName, Date od, String oName, int oea, int op) {
+	public OrderVo(int on, Date od, String oName, int oea, int op, String id) {
 		this.oNum = on;
-		this.mId = id;
-		this.mName = mName;
 		this.oDate = od;
 		this.oName = oName;
 		this.oea = oea;
 		this.oPrice = op;
+		this.mId = id;		
 	}
 	
 	public String toString() {
@@ -32,8 +30,8 @@ public class OrderVo {
 			d = sdf.format(oDate);
 		}
 		
-		String temp = String.format("%10d\t%15s\t%20s\t%10s\t%30s\t%7d\n",
-				oNum, mId, mName, d, oName, oea, oPrice);
+		String temp = String.format("%10d\t%15s\t%20s\t%20s\t%20d\t%10s\n",
+				oNum, d, oName, oea, oPrice, mId);
 		return temp;	
 	}
 	public int getoNum() {
@@ -47,13 +45,7 @@ public class OrderVo {
 	}
 	public void setmId(String mId) {
 		this.mId = mId;
-	}
-	public String getmName() {
-		return mName;
-	}
-	public void setmName(String mName) {
-		this.mName = mName;
-	}
+	}	
 	public Date getoDate() {
 		return oDate;
 	}

@@ -1,41 +1,47 @@
 package semi;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JSeparator;
-import java.awt.Color;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class OrderUpdate extends JInternalFrame {
+	OrderDao dao = new OrderDao();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
 	private JLabel lblOrderHistoryList;
 	private JScrollPane scrollPane;
-	private JList list;
 	private JLabel lblOrderHistoryManagement;
-	private JTextField textField;
+	private JTextField toNum;
 	private JButton btnNewButton;
 	private JLabel label;
 	private JSeparator separator;
 	private JLabel lblNewLabel;
-	private JTextField textField_1;
-	private JLabel label_1;
-	private JTextField textField_2;
+	private JTextField tmId;
 	private JLabel label_2;
-	private JTextField textField_3;
+	private JTextField toDate;
 	private JLabel label_3;
-	private JTextField textField_4;
+	private JTextField toName;
 	private JLabel label_4;
-	private JTextField textField_5;
+	private JTextField toea;
 	private JLabel label_5;
-	private JTextField textField_6;
+	private JTextField toPrice;
 	private JButton btnNewButton_1;
 	private JButton button;
-	private JLabel label_6;
+	private JLabel status;
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -57,31 +63,32 @@ public class OrderUpdate extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public OrderUpdate() {
+		super("주문내역관리", false, true, true, true);		
+		setVisible(true);
+		
 		setTitle("\uC8FC\uBB38\uB0B4\uC5ED\uAD00\uB9AC");
 		setBounds(100, 100, 600, 400);
 		getContentPane().setLayout(null);
 		getContentPane().add(getLblOrderHistoryList());
 		getContentPane().add(getScrollPane());
 		getContentPane().add(getLabel_1());
-		getContentPane().add(getTextField());
+		getContentPane().add(getToNum());
 		getContentPane().add(getBtnNewButton());
 		getContentPane().add(getLabel_2());
 		getContentPane().add(getSeparator());
 		getContentPane().add(getLabel_1_1());
-		getContentPane().add(getTextField_1());
-		getContentPane().add(getLabel_1_2());
-		getContentPane().add(getTextField_2());
+		getContentPane().add(getTmId());
 		getContentPane().add(getLabel_2_1());
-		getContentPane().add(getTextField_3());
+		getContentPane().add(getToDate());
 		getContentPane().add(getLabel_3());
-		getContentPane().add(getTextField_4());
+		getContentPane().add(getToName());
 		getContentPane().add(getLabel_4());
-		getContentPane().add(getTextField_5());
+		getContentPane().add(getToea());
 		getContentPane().add(getLabel_5());
-		getContentPane().add(getTextField_6());
+		getContentPane().add(getToPrice());
 		getContentPane().add(getBtnNewButton_1());
 		getContentPane().add(getButton());
-		getContentPane().add(getLabel_6());
+		getContentPane().add(getStatus());
 
 	}
 
@@ -97,15 +104,9 @@ public class OrderUpdate extends JInternalFrame {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(12, 35, 298, 326);
-			scrollPane.setViewportView(getList());
+			scrollPane.setViewportView(getTextArea());
 		}
 		return scrollPane;
-	}
-	private JList getList() {
-		if (list == null) {
-			list = new JList();
-		}
-		return list;
 	}
 	private JLabel getLabel_1() {
 		if (lblOrderHistoryManagement == null) {
@@ -115,17 +116,41 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return lblOrderHistoryManagement;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(391, 34, 116, 21);
-			textField.setColumns(10);
+	private JTextField getToNum() {
+		if (toNum == null) {
+			toNum = new JTextField();
+			toNum.setBounds(391, 34, 116, 21);
+			toNum.setColumns(10);
 		}
-		return textField;
+		return toNum;
 	}
 	private JButton getBtnNewButton() {
 		if (btnNewButton == null) {
 			btnNewButton = new JButton("\uAC80\uC0C9");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					String find = toNum.getText();
+					List<OrderVo> list = dao.select(find);
+					textArea.setText("");
+					for(OrderVo vo : list) {
+					    textArea.append(vo.toString() );
+					}
+					
+					int oNum = Integer.parseInt(toNum.getText());
+					OrderVo vo = dao.search(oNum);
+					if( vo==null) {
+						status.setText("자료가 없습니다.");
+					}else {
+						tmId.setText(vo.getmId());
+						toDate.setText(sdf.format(vo.getoDate()));
+						toName.setText(vo.getoName());
+						toea.setText(String.valueOf(vo.getOea()));
+						toPrice.setText(String.valueOf(vo.getoPrice()));
+					}
+					
+				}
+			});
 			btnNewButton.setBounds(512, 33, 60, 23);
 		}
 		return btnNewButton;
@@ -153,28 +178,13 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return lblNewLabel;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(391, 71, 181, 21);
-			textField_1.setColumns(10);
+	private JTextField getTmId() {
+		if (tmId == null) {
+			tmId = new JTextField();
+			tmId.setBounds(391, 71, 181, 21);
+			tmId.setColumns(10);
 		}
-		return textField_1;
-	}
-	private JLabel getLabel_1_2() {
-		if (label_1 == null) {
-			label_1 = new JLabel("\uC131          \uD568");
-			label_1.setBounds(322, 102, 67, 15);
-		}
-		return label_1;
-	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setColumns(10);
-			textField_2.setBounds(391, 99, 181, 21);
-		}
-		return textField_2;
+		return tmId;
 	}
 	private JLabel getLabel_2_1() {
 		if (label_2 == null) {
@@ -183,13 +193,13 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return label_2;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setColumns(10);
-			textField_3.setBounds(391, 127, 181, 21);
+	private JTextField getToDate() {
+		if (toDate == null) {
+			toDate = new JTextField();
+			toDate.setColumns(10);
+			toDate.setBounds(391, 127, 181, 21);
 		}
-		return textField_3;
+		return toDate;
 	}
 	private JLabel getLabel_3() {
 		if (label_3 == null) {
@@ -199,13 +209,13 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return label_3;
 	}
-	private JTextField getTextField_4() {
-		if (textField_4 == null) {
-			textField_4 = new JTextField();
-			textField_4.setColumns(10);
-			textField_4.setBounds(391, 155, 181, 21);
+	private JTextField getToName() {
+		if (toName == null) {
+			toName = new JTextField();
+			toName.setColumns(10);
+			toName.setBounds(391, 155, 181, 21);
 		}
-		return textField_4;
+		return toName;
 	}
 	private JLabel getLabel_4() {
 		if (label_4 == null) {
@@ -215,13 +225,13 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return label_4;
 	}
-	private JTextField getTextField_5() {
-		if (textField_5 == null) {
-			textField_5 = new JTextField();
-			textField_5.setColumns(10);
-			textField_5.setBounds(391, 186, 181, 21);
+	private JTextField getToea() {
+		if (toea == null) {
+			toea = new JTextField();
+			toea.setColumns(10);
+			toea.setBounds(391, 186, 181, 21);
 		}
-		return textField_5;
+		return toea;
 	}
 	private JLabel getLabel_5() {
 		if (label_5 == null) {
@@ -230,17 +240,42 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return label_5;
 	}
-	private JTextField getTextField_6() {
-		if (textField_6 == null) {
-			textField_6 = new JTextField();
-			textField_6.setColumns(10);
-			textField_6.setBounds(391, 214, 181, 21);
+	private JTextField getToPrice() {
+		if (toPrice == null) {
+			toPrice = new JTextField();
+			toPrice.setColumns(10);
+			toPrice.setBounds(391, 214, 181, 21);
 		}
-		return textField_6;
+		return toPrice;
 	}
 	private JButton getBtnNewButton_1() {
 		if (btnNewButton_1 == null) {
 			btnNewButton_1 = new JButton("\uB0B4\uC5ED\uC218\uC815");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					OrderVo vo = new OrderVo();	
+					
+					try {
+						vo.setoNum(Integer.parseInt(toNum.getText()) );
+						vo.setmId(tmId.getText() );	
+						vo.setoDate(sdf.parse(toDate.getText()) );
+						vo.setoName(toName.getText());
+						vo.setOea(Integer.parseInt(toea.getText()) );
+						vo.setoPrice(Integer.parseInt(toPrice.getText()) );
+						
+						int cnt = dao.update(vo);
+						
+						if(cnt>0) {
+							status.setText("정상적으로 수정되었습니다.");
+						}else {
+							status.setText("수정중 오류 발생.");
+						}
+						
+					}catch(Exception ex){
+						ex.printStackTrace();
+					}
+				}
+			});
 			btnNewButton_1.setBounds(391, 245, 85, 40);
 		}
 		return btnNewButton_1;
@@ -248,18 +283,44 @@ public class OrderUpdate extends JInternalFrame {
 	private JButton getButton() {
 		if (button == null) {
 			button = new JButton("\uB0B4\uC5ED\uC0AD\uC81C");
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					int oNum = Integer.parseInt(toNum.getText());
+					int cnt = dao.delete(oNum);
+					
+					if(cnt>0) {
+						status.setText("자료가 삭제되었습니다.");						
+					}else {
+						status.setText("자료 삭제 중 오류 발생");
+					}					
+					toNum.setText("");
+					tmId.setText("");
+					toDate.setText("");
+					toName.setText("");
+					toea.setText("");
+					toPrice.setText("");
+					
+				}
+			});
 			button.setBounds(488, 245, 85, 40);
 		}
 		return button;
 	}
-	private JLabel getLabel_6() {
-		if (label_6 == null) {
-			label_6 = new JLabel("\uC8FC\uBB38\uBC88\uD638\uB97C \uAC80\uC0C9\uD558\uC5EC \uC8FC\uC138\uC694.");
-			label_6.setOpaque(true);
-			label_6.setHorizontalAlignment(SwingConstants.CENTER);
-			label_6.setBackground(new Color(175, 238, 238));
-			label_6.setBounds(322, 295, 250, 66);
+	private JLabel getStatus() {
+		if (status == null) {
+			status = new JLabel("\uC8FC\uBB38\uBC88\uD638\uB97C \uAC80\uC0C9\uD558\uC5EC \uC8FC\uC138\uC694.");
+			status.setOpaque(true);
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBackground(new Color(175, 238, 238));
+			status.setBounds(322, 295, 250, 66);
 		}
-		return label_6;
+		return status;
+	}
+	private JTextArea getTextArea() {
+		if (textArea == null) {
+			textArea = new JTextArea();
+		}
+		return textArea;
 	}
 }
