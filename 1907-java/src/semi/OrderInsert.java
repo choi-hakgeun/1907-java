@@ -1,6 +1,7 @@
 package semi;
 
 import java.awt.EventQueue;
+import java.sql.Connection;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -12,6 +13,9 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 
 public class OrderInsert extends JInternalFrame {
+	Connection DBconn;
+	
+	
 	private JLabel lblNewLabel;
 	private JScrollPane scrollPane;
 	private JList list;
@@ -62,8 +66,9 @@ public class OrderInsert extends JInternalFrame {
 
 	}
 	public OrderInsert(String foodName, int salePrice, String isSales) {
-		//is체크되어있는 메뉴만 판매가능
-		if(equals(isSales))
+		
+		String sql = " select FoodName, salePrice, is_Sales from Food where is_sales = y ";
+		
 	}
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {

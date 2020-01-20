@@ -101,7 +101,7 @@ public class OrderDao {
 					+ " where orderNo like ? "
 					+ " or UserId like ? "
 					+ " or FoodName like ? "
-					+ " order by OrderDT ";
+					+ " order by orderNo ";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + find + "%");
