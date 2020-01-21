@@ -203,8 +203,16 @@ public class OrderInsert extends JInternalFrame {
 						OrderVo vo = new OrderVo();
 						vo.setmId(tmId.getText());
 						
+						List vc = model2.getDataVector();//루핑을 위해 List로 변경						
+						for(int i = 0; i <= vc.size() ;i++) {
+							
+							for(int j=0; j < 3; j++) {
+								vo.setoName((String)table_1.getValueAt(i, j));
+								vo.setoPrice((int)table_1.getValueAt(i, j));						
+								vo.setOea((int)table_1.getValueAt(i, j));						
+							}
+						}
 						
-						Vector vc = model2.getDataVector();						
 						TableColumnModel tcm = table_1.getColumnModel();
 						TableColumn tc = tcm.getColumn(1);
 						//System.out.println(tc.);

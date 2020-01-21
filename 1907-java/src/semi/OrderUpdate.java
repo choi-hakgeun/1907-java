@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -15,9 +16,13 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextArea;
 
 public class OrderUpdate extends JInternalFrame {
+	String header[] = {"주문번호", "음식명", "주문날짜", "주문가격", "주문자아이디"};
+	DefaultTableModel model = new DefaultTableModel(header, 0);
+	
 	OrderDao dao = new OrderDao();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -41,7 +46,7 @@ public class OrderUpdate extends JInternalFrame {
 	private JButton btnNewButton_1;
 	private JButton button;
 	private JLabel status;
-	private JTextArea textArea;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -104,7 +109,7 @@ public class OrderUpdate extends JInternalFrame {
 		if (scrollPane == null) {
 			scrollPane = new JScrollPane();
 			scrollPane.setBounds(12, 35, 298, 326);
-			scrollPane.setViewportView(getTextArea());
+			scrollPane.setViewportView(getTable());
 		}
 		return scrollPane;
 	}
@@ -131,11 +136,15 @@ public class OrderUpdate extends JInternalFrame {
 				public void actionPerformed(ActionEvent e) {
 					
 					String find = toNum.getText();
-					List<OrderVo> list = dao.select(find);
-					textArea.setText("");
+					List<OrderVo> list = dao.select(find);					
+					
 					for(OrderVo vo : list) {
-					    textArea.append(vo.toString() );
+					    model.addRow(new Object[] {
+					    		vo.getoNum(), vo.getoName(), vo.getoDate(),
+					    		vo.getoPrice(), vo.getmId()
+					    });
 					}
+					
 					
 					int oNum = Integer.parseInt(toNum.getText());
 					OrderVo vo = dao.search(oNum);
@@ -317,10 +326,10 @@ public class OrderUpdate extends JInternalFrame {
 		}
 		return status;
 	}
-	private JTextArea getTextArea() {
-		if (textArea == null) {
-			textArea = new JTextArea();
+	private JTable getTable() {
+		if (table == null) {
+			table = new JTable();
 		}
-		return textArea;
+		return table;
 	}
 }
