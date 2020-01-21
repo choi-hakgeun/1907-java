@@ -138,11 +138,12 @@ public class OrderUpdate extends JInternalFrame {
 					String find = toNum.getText();
 					List<OrderVo> list = dao.select(find);					
 					
-					for(OrderVo vo : list) {
+					for(OrderVo vo : list) {						
 					    model.addRow(new Object[] {
 					    		vo.getoNum(), vo.getoName(), vo.getoDate(),
 					    		vo.getoPrice(), vo.getmId()
 					    });
+					    table.setModel(model);
 					}
 					
 					
