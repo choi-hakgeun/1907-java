@@ -201,8 +201,10 @@ public class OrderInsert extends JInternalFrame {
 				public void actionPerformed(ActionEvent e) {
 					try {
 						OrderVo vo = new OrderVo();
+						vo.setmId(tmId.getText());
 						
-						Vector vc = model2.getDataVector();
+						
+						Vector vc = model2.getDataVector();						
 						TableColumnModel tcm = table_1.getColumnModel();
 						TableColumn tc = tcm.getColumn(1);
 						//System.out.println(tc.);
