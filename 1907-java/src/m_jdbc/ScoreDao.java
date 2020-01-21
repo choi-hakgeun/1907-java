@@ -118,7 +118,7 @@ public class ScoreDao {
 				+ " or    m.mName like ? ";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" +find +"%");
+			ps.setString(1, "%" +find +"%");			
 			ps.setString(2, "%" +find +"%");
 			ps.setString(3, "%" +find +"%");
 			

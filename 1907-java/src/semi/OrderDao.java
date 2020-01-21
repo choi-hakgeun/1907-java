@@ -17,6 +17,20 @@ public class OrderDao {
 	public int insert(OrderVo vo) {
 		int r= 0;
 		try {
+			String sql = " insert into Orderlog values(seq_orderlog.nextval, ?, sysdate, ?, ?) ";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, vo.getoName());
+			ps.setInt(2, vo.getoPrice());
+			ps.setString(3, vo.getmId());
+			
+			conn.setAutoCommit(false);
+			r = ps.executeUpdate();
+			if(r>0) {
+				conn.commit();				
+			}else {
+				conn.rollback();
+			}
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -120,7 +134,10 @@ public class OrderDao {
 				vo.setmId(rs.getString("UserID"));
 				
 				list.add(vo);
-			}	
+			}
+			rs.close();
+			ps.close();
+			conn.close();
 			
 			
 		}catch(Exception ex) {
@@ -129,6 +146,32 @@ public class OrderDao {
 			return list;
 		}
 				
+	}
+	public List<FoodVo> menu(){
+		List<FoodVo> flist = new ArrayList<FoodVo>();
+		try {
+			String sql = " select FoodName, salesPrice from Food where is_sales = 'Y' ";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String FoodName = rs.getString("FoodName");				
+				int SalPrice = rs.getInt("salesPrice");
+				FoodVo vo = new FoodVo(FoodName, SalPrice);			
+				flist.add(vo);
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+			
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			return flist;
+		}		
 	}
 
 }
