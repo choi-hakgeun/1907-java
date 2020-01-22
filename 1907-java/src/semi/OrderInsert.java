@@ -22,8 +22,8 @@ import javax.swing.table.TableColumnModel;
 public class OrderInsert extends JInternalFrame {
 	OrderDao dao = new OrderDao();
 	Connection conn;
-	String header[] = { "¸Ş´º", "°¡°İ"};
-	String header1[] = { "¸Ş´º", "°¡°İ", "¼ö·®"};
+	String header[] = { "ë©”ë‰´", "ê°€ê²©"};
+	String header1[] = { "ë©”ë‰´", "ê°€ê²©", "ìˆ˜ëŸ‰"};
 	DefaultTableModel model = new DefaultTableModel(header,0);
 	DefaultTableModel model2 = new DefaultTableModel(header1,0);
 	int tot;
@@ -61,7 +61,7 @@ public class OrderInsert extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public OrderInsert() {
-		super("¸Ş´º ¼±ÅÃ", false, true, true, true);
+		super("ë©”ë‰´ ì„ íƒ", false, true, true, true);
 		setVisible(true);
 		
 		setTitle("\uC8FC\uBB38\uC811\uC218");
@@ -90,7 +90,7 @@ public class OrderInsert extends JInternalFrame {
             		table.setModel(model);            		
             	}
 			}
-//			FoodVo vo = list.get(0); // select °á°ú Áß Ã¹¹øÂ° ÇàÀÇ ¸Ş´º, °¡°İ Á¤º¸°¡ ´ã°ÜÀÖ´Â vo
+//			FoodVo vo = list.get(0); // select ê²°ê³¼ ì¤‘ ì²«ë²ˆì§¸ í–‰ì˜ ë©”ë‰´, ê°€ê²© ì •ë³´ê°€ ë‹´ê²¨ìˆëŠ” vo
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -121,7 +121,7 @@ public class OrderInsert extends JInternalFrame {
 		}
 		return scrollPane_1;
 	}
-	private JTextField getTmId() {//·Î±×ÀÎ¾ÆÀÌµğ ¸Å°³º¯¼ö ¹Ş¾Æ¿Í¼­ ¸Å°³º¯¼ö¿¡ ³Ö±â
+	private JTextField getTmId() {//ë¡œê·¸ì¸ì•„ì´ë”” ë§¤ê°œë³€ìˆ˜ ë°›ì•„ì™€ì„œ ë§¤ê°œë³€ìˆ˜ì— ë„£ê¸°
 		if (tmId == null) {
 			tmId = new JTextField();
 			tmId.setHorizontalAlignment(SwingConstants.CENTER);
@@ -151,12 +151,12 @@ public class OrderInsert extends JInternalFrame {
 					
 					Vector rowVC = (Vector) vc.get(row);
 					
-					rowVC.addElement("1"); // °³¼ö Ãß°¡
+					rowVC.addElement(1); // ê°œìˆ˜ ì¶”ê°€
 					
 					model2.addRow(rowVC);
 					table_1.setModel(model2);
 					
-					// °¡°İ ÇÕ°è ±¸ÇÏ±â
+					// ê°€ê²© í•©ê³„ êµ¬í•˜ê¸°
 					Integer num = (Integer) model.getValueAt(row, 1);
 					tot += num;
 					System.out.println(num);
@@ -176,9 +176,9 @@ public class OrderInsert extends JInternalFrame {
 					
 					int row = table_1.getSelectedRow();
 					if(row == -1) {
-						status.setText("Ãë¼ÒÇÒ ¸Ş´º¸¦ ¼±ÅÃÇØ ÁÖ¼¼¿ä");
+						status.setText("ì·¨ì†Œí•  ë©”ë‰´ë¥¼ ì„ íƒí•´ ì£¼ì„¸ìš”");
 					}else {
-						// Ãë¼ÒÇÑ »óÇ° ±İ¾× »©±â
+						// ì·¨ì†Œí•œ ìƒí’ˆ ê¸ˆì•¡ ë¹¼ê¸°
 						Integer num = (Integer) model2.getValueAt(row, 1);
 						tot -= num;
 						
@@ -186,7 +186,7 @@ public class OrderInsert extends JInternalFrame {
 						table_1.setModel(model2);
 						
 						System.out.println(tot);
-						status.setText("¸Ş´º°¡ Ãë¼ÒµÇ¾ú½À´Ï´Ù.");
+						status.setText("ë©”ë‰´ê°€ ì·¨ì†Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 					}
 				}
 			});
@@ -202,23 +202,38 @@ public class OrderInsert extends JInternalFrame {
 					try {
 						OrderVo vo = new OrderVo();
 						vo.setmId(tmId.getText());
+						boolean result = false; // ì£¼ë¬¸ ë‚´ì—­ì´ ì •ìƒ ì €ì¥ë¬ëŠ”ì§€ í™•ì¸
 						
-						List vc = model2.getDataVector();//·çÇÎÀ» À§ÇØ List·Î º¯°æ						
-						for(int i = 0; i <= vc.size() ;i++) {
+						Vector vc = model2.getDataVector();//ë£¨í•‘ì„ ìœ„í•´ Listë¡œ ë³€ê²½						
+						for(int i = 0; i < vc.size() ;i++) {
 							
-							for(int j=0; j < 3; j++) {
-								vo.setoName((String)table_1.getValueAt(i, j));
-								vo.setoPrice((int)table_1.getValueAt(i, j));						
-								vo.setOea((int)table_1.getValueAt(i, j));						
-							}
+							//for(int j=0; j < 3; j++) {
+								vo.setoName((String)table_1.getValueAt(i, 0));
+								vo.setoPrice((Integer)table_1.getValueAt(i, 1));						
+								vo.setOea((Integer)table_1.getValueAt(i, 2));						
+							//}
+								int cnt = dao.insert(vo);
+								
+								if(cnt > 0) {
+									result = true;
+								}
+								else {
+									result = false;
+									break;						
+								}
+									
+								System.out.println(vo.getoName());
+								System.out.println(vo.getoPrice());
+								System.out.println(vo.getOea());
 						}
 						
-						TableColumnModel tcm = table_1.getColumnModel();
-						TableColumn tc = tcm.getColumn(1);
-						//System.out.println(tc.);
-						//table_1.get			
-						
-						
+						if(result) {
+							dao.conn.commit();
+							status.setText("ì£¼ë¬¸ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+						}else {
+							dao.conn.rollback(); // ë°ì´í„° ì €ì¥ì „ìœ¼ë¡œ ëŒì•„ê°€ëŠ” ê²ƒ
+							status.setText("ì¹´ìš´í„°ì— ë¬¸ì˜í•´ì£¼ì„¸ìš”.");
+						}
 						
 					}catch(Exception ex) {
 						ex.printStackTrace();

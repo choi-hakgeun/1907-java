@@ -12,11 +12,11 @@ public class OrderVo {
 	String mId;
 	
 	public OrderVo() {}
-	public OrderVo(int on, Date od, String oName, int oea, int op, String id) {
+	public OrderVo(int on, String oName, int oea, Date od, int op, String id) {
 		this.oNum = on;
-		this.oDate = od;
 		this.oName = oName;
 		this.oea = oea;
+		this.oDate = od;
 		this.oPrice = op;
 		this.mId = id;		
 	}

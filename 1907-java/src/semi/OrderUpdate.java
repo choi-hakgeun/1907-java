@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -17,14 +17,17 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JTextArea;
 
 public class OrderUpdate extends JInternalFrame {
-	String header[] = {"주문번호", "음식명", "주문날짜", "주문가격", "주문자아이디"};
+	OrderDao dao = new OrderDao();
+	
+	
+	String header[] = {"주문번호", "음식명", "주문수량", "주문날짜", "주문가격", "주문자아이디"};
 	DefaultTableModel model = new DefaultTableModel(header, 0);
 	
-	OrderDao dao = new OrderDao();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	
+	int oNum;
 	
 	private JLabel lblOrderHistoryList;
 	private JScrollPane scrollPane;
@@ -68,7 +71,7 @@ public class OrderUpdate extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public OrderUpdate() {
-		super("주문내역관리", false, true, true, true);		
+				
 		setVisible(true);
 		
 		setTitle("\uC8FC\uBB38\uB0B4\uC5ED\uAD00\uB9AC");
@@ -94,7 +97,25 @@ public class OrderUpdate extends JInternalFrame {
 		getContentPane().add(getBtnNewButton_1());
 		getContentPane().add(getButton());
 		getContentPane().add(getStatus());
+		
+		List<OrderVo> list = dao.OrderList();					
+		
+		try {
+			Vector row = new Vector(list.size());
+			
+			for(int i=1; i< list.size(); i++) {			
+					OrderVo vo = list.get(i);
+					model.addRow(new Object[] {
+							vo.getoNum(), vo.getoName(), vo.getOea(), 
+							vo.getoDate(), vo.getoPrice(), vo.getmId()
+					});
 
+			}// for end
+			table.setModel(model);
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	private JLabel getLblOrderHistoryList() {
@@ -134,14 +155,14 @@ public class OrderUpdate extends JInternalFrame {
 			btnNewButton = new JButton("\uAC80\uC0C9");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					model.setNumRows(0);
 					String find = toNum.getText();
 					List<OrderVo> list = dao.select(find);					
 					
 					for(OrderVo vo : list) {						
 					    model.addRow(new Object[] {
-					    		vo.getoNum(), vo.getoName(), vo.getoDate(),
-					    		vo.getoPrice(), vo.getmId()
+					    		vo.getoNum(), vo.getoName(), vo.getOea(), 
+					    		vo.getoDate(), vo.getoPrice(), vo.getmId()
 					    });
 					    table.setModel(model);
 					}

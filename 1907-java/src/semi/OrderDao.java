@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDao {
 	Connection conn;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 			
 	public OrderDao() {		
 		conn = DBconn.getConn();
@@ -17,20 +18,16 @@ public class OrderDao {
 	public int insert(OrderVo vo) {
 		int r= 0;
 		try {
-			String sql = " insert into Orderlog values(seq_orderlog.nextval, ?, sysdate, ?, ?) ";
+			String sql = " insert into Orderlog values(seq_orderlog.nextval, ?, ?, sysdate, ?, ?) ";
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, vo.getoName());
-			ps.setInt(2, vo.getoPrice());
-			ps.setString(3, vo.getmId());
+			ps.setInt(2, vo.getOea());
+			ps.setInt(3, vo.getoPrice());
+			ps.setString(4, vo.getmId());
 			
 			conn.setAutoCommit(false);
-			r = ps.executeUpdate();
-			if(r>0) {
-				conn.commit();				
-			}else {
-				conn.rollback();
-			}
+			r = ps.executeUpdate();			
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -38,6 +35,8 @@ public class OrderDao {
 			return r;
 		}
 	}
+	
+	
 	public int delete(int oNum) {
 		int r = 0;
 		try {
@@ -60,16 +59,16 @@ public class OrderDao {
 			return r;
 		}
 	}
+	// 주문번호로 주문내역 검색
 	public OrderVo search(int oNum) {
 		OrderVo vo = null;
 		try {
 			String sql = "select OrderNo, FoodName, Ordercnt, OrderDT, OrderPrice, UserId "
 					+ " from OrderLog "
-					+ " where OrderNo = ?";
+					+ " where orderno =? ";
 					
 					PreparedStatement ps = conn.prepareStatement(sql);
-					ps.setInt(1, oNum);
-					
+					ps.setInt(1,  oNum);
 					ResultSet rs = ps.executeQuery();
 					if(rs.next()) {
 						vo = new OrderVo();
@@ -114,8 +113,8 @@ public class OrderDao {
 			String sql = " select * from OrderLog "
 					+ " where orderNo like ? "
 					+ " or UserId like ? "
-					+ " or FoodName like ? "
-					+ " order by orderNo ";
+					+ " or FoodName like ? ";
+										
 			
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, "%" + find + "%");
@@ -135,9 +134,7 @@ public class OrderDao {
 				
 				list.add(vo);
 			}
-			rs.close();
-			ps.close();
-			conn.close();
+			
 			
 			
 		}catch(Exception ex) {
@@ -163,8 +160,7 @@ public class OrderDao {
 			}
 			
 			rs.close();
-			ps.close();
-			conn.close();
+			ps.close();			
 			
 			
 		}catch(Exception ex) {
@@ -172,6 +168,35 @@ public class OrderDao {
 		}finally {
 			return flist;
 		}		
+	}
+	
+	public List<OrderVo> OrderList(){//OrderLog 테이블의 데이터를 받아와서 olist에 저장 후 반환
+		List<OrderVo> olist = new ArrayList<OrderVo>();
+		try {
+			String sql = " select * from Orderlog order by orderNo ";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int oNum = rs.getInt("OrderNo");
+				String oName = rs.getString("FoodName");
+				int oea = rs.getInt("Ordercnt");
+				Date oDate = rs.getTimestamp("OrderDT");
+				int oPrice = rs.getInt("OrderPrice");
+				String mId = rs.getString("userID");
+				OrderVo vo = new OrderVo(oNum, oName, oea, oDate, oPrice, mId);
+				olist.add(vo);
+			}
+			rs.close();
+			ps.close();
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			return olist;
+		}
+		
+		
 	}
 
 }
