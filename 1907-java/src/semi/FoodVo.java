@@ -1,7 +1,7 @@
 package semi;
 
 public class FoodVo {
-	int fNo;
+	   int fNo;
 	   String fName;
 	   int InPrice;
 	   int SalPrice;

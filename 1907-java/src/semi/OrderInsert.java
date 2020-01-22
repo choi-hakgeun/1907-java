@@ -22,8 +22,8 @@ import javax.swing.table.TableColumnModel;
 public class OrderInsert extends JInternalFrame {
 	OrderDao dao = new OrderDao();
 	Connection conn;
-	String header[] = { "메뉴", "가격"};
-	String header1[] = { "메뉴", "가격", "수량"};
+	String header[] = { "�???", "�?�?"};
+	String header1[] = { "�???", "�?�?", "????"};
 	DefaultTableModel model = new DefaultTableModel(header,0);
 	DefaultTableModel model2 = new DefaultTableModel(header1,0);
 	int tot;
@@ -61,7 +61,7 @@ public class OrderInsert extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public OrderInsert() {
-		super("메뉴 선택", false, true, true, true);
+		super("�??? ????", false, true, true, true);
 		setVisible(true);
 		
 		setTitle("\uC8FC\uBB38\uC811\uC218");
@@ -90,7 +90,7 @@ public class OrderInsert extends JInternalFrame {
             		table.setModel(model);            		
             	}
 			}
-//			FoodVo vo = list.get(0); // select 결과 중 첫번째 행의 메뉴, 가격 정보가 담겨있는 vo
+//			FoodVo vo = list.get(0); // select 결과 �? 첫�?�? ???? �???, �?�? ??보�? ?�겨???? vo
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -121,7 +121,7 @@ public class OrderInsert extends JInternalFrame {
 		}
 		return scrollPane_1;
 	}
-	private JTextField getTmId() {//로그인아이디 매개변수 받아와서 매개변수에 넣기
+	private JTextField getTmId() {//�?그�?��???��?? 매�?�??? �??????? 매�?�????? ?�기
 		if (tmId == null) {
 			tmId = new JTextField();
 			tmId.setHorizontalAlignment(SwingConstants.CENTER);
@@ -151,12 +151,12 @@ public class OrderInsert extends JInternalFrame {
 					
 					Vector rowVC = (Vector) vc.get(row);
 					
-					rowVC.addElement(1); // 개수 추가
+					rowVC.addElement(1); // �??? �?�?
 					
 					model2.addRow(rowVC);
 					table_1.setModel(model2);
 					
-					// 가격 합계 구하기
+					// �?�? ?��? 구�??�?
 					Integer num = (Integer) model.getValueAt(row, 1);
 					tot += num;
 					System.out.println(num);
@@ -176,9 +176,9 @@ public class OrderInsert extends JInternalFrame {
 					
 					int row = table_1.getSelectedRow();
 					if(row == -1) {
-						status.setText("취소할 메뉴를 선택해 주세요");
+						status.setText("취�???? �??��?? ?????? 주�?��??");
 					}else {
-						// 취소한 상품 금액 빼기
+						// 취�???? ???? �??? 빼기
 						Integer num = (Integer) model2.getValueAt(row, 1);
 						tot -= num;
 						
@@ -186,7 +186,7 @@ public class OrderInsert extends JInternalFrame {
 						table_1.setModel(model2);
 						
 						System.out.println(tot);
-						status.setText("메뉴가 취소되었습니다.");
+						status.setText("�??��? 취�???????��????.");
 					}
 				}
 			});
@@ -202,9 +202,9 @@ public class OrderInsert extends JInternalFrame {
 					try {
 						OrderVo vo = new OrderVo();
 						vo.setmId(tmId.getText());
-						boolean result = false; // 주문 내역이 정상 저장됬는지 확인
+						boolean result = false; // 주문 ?��???? ???? ???��?��??�? ????
 						
-						Vector vc = model2.getDataVector();//루핑을 위해 List로 변경						
+						Vector vc = model2.getDataVector();//루�???? ???? List�? �?�?						
 						for(int i = 0; i < vc.size() ;i++) {
 							
 							//for(int j=0; j < 3; j++) {
@@ -229,10 +229,10 @@ public class OrderInsert extends JInternalFrame {
 						
 						if(result) {
 							dao.conn.commit();
-							status.setText("주문이 완료되었습니다.");
+							status.setText("주문?? ??�??????��????.");
 						}else {
-							dao.conn.rollback(); // 데이터 저장전으로 돌아가는 것
-							status.setText("카운터에 문의해주세요.");
+							dao.conn.rollback(); // ?��?��?? ???��???��? ????�??? �?
+							status.setText("카�?��?��?? 문�???�주?��??.");
 						}
 						
 					}catch(Exception ex) {

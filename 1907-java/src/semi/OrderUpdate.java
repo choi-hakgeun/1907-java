@@ -25,9 +25,8 @@ public class OrderUpdate extends JInternalFrame {
 	String header[] = {"주문번호", "음식명", "주문수량", "주문날짜", "주문가격", "주문자아이디"};
 	DefaultTableModel model = new DefaultTableModel(header, 0);
 	
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");	
 	
-	int oNum;
 	
 	private JLabel lblOrderHistoryList;
 	private JScrollPane scrollPane;
@@ -171,7 +170,7 @@ public class OrderUpdate extends JInternalFrame {
 					int oNum = Integer.parseInt(toNum.getText());
 					OrderVo vo = dao.search(oNum);
 					if( vo==null) {
-						status.setText("자료가 없습니다.");
+						status.setText("주문번호를 검색하여주세요.");
 					}else {
 						tmId.setText(vo.getmId());
 						toDate.setText(sdf.format(vo.getoDate()));
@@ -297,9 +296,9 @@ public class OrderUpdate extends JInternalFrame {
 						int cnt = dao.update(vo);
 						
 						if(cnt>0) {
-							status.setText("정상적으로 수정되었습니다.");
+							status.setText("수정이 정상적으로 완료되었습니다.");
 						}else {
-							status.setText("수정중 오류 발생.");
+							status.setText("수정중 오류가 발생하였습니다.");
 						}
 						
 					}catch(Exception ex){
@@ -321,9 +320,9 @@ public class OrderUpdate extends JInternalFrame {
 					int cnt = dao.delete(oNum);
 					
 					if(cnt>0) {
-						status.setText("자료가 삭제되었습니다.");						
+						status.setText("주문내역이 삭제되었습니다.");						
 					}else {
-						status.setText("자료 삭제 중 오류 발생");
+						status.setText("주문내역 삭제 중 오류가 발생하였습니다.");
 					}					
 					toNum.setText("");
 					tmId.setText("");

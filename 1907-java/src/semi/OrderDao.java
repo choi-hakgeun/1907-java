@@ -59,7 +59,7 @@ public class OrderDao {
 			return r;
 		}
 	}
-	// ÁÖ¹®¹øÈ£·Î ÁÖ¹®³»¿ª °Ë»ö
+	// ï¿½Ö¹ï¿½ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
 	public OrderVo search(int oNum) {
 		OrderVo vo = null;
 		try {
@@ -170,7 +170,7 @@ public class OrderDao {
 		}		
 	}
 	
-	public List<OrderVo> OrderList(){//OrderLog Å×ÀÌºíÀÇ µ¥ÀÌÅÍ¸¦ ¹Þ¾Æ¿Í¼­ olist¿¡ ÀúÀå ÈÄ ¹ÝÈ¯
+	public List<OrderVo> OrderList(){//OrderLog ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Þ¾Æ¿Í¼ï¿½ olistï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¯
 		List<OrderVo> olist = new ArrayList<OrderVo>();
 		try {
 			String sql = " select * from Orderlog order by orderNo ";
