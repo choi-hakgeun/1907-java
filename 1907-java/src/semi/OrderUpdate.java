@@ -286,24 +286,34 @@ public class OrderUpdate extends JInternalFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					OrderVo vo = new OrderVo();	
 					
-					try {
-						vo.setoNum(Integer.parseInt(toNum.getText()) );
-						vo.setmId(tmId.getText() );	
-						vo.setoDate(sdf.parse(toDate.getText()) );
-						vo.setoName(toName.getText());
-						vo.setOea(Integer.parseInt(toea.getText()) );
-						vo.setoPrice(Integer.parseInt(toPrice.getText()) );
-						
-						int cnt = dao.update(vo);
-						
-						if(cnt>0) {
-							status.setText("정상적으로 수정되었습니다.");
-						}else {
-							status.setText("수정중 오류 발생.");
+					if(tmId.getText().equals("") && toName.getText().equals("") // 공백체크 
+					  && toea.getText().equals("") && toPrice.getText().equals("")) {
+						status.setText("수정 내용 중 공백이 있습니다.");
+					}else {
+						try {
+							vo.setmId(tmId.getText() );	
+							vo.setoDate(sdf.parse(toDate.getText()) );
+							vo.setoName(toName.getText());						
+							
+							vo.setoPrice(Integer.parseInt(toPrice.getText()) );
+							
+							int i = Integer.parseInt(toea.getText());//수량 2자리 체크
+							if(i > 99) {
+								status.setText("수량은 두자리까지 수정이 가능합니다.");
+							}else {
+								vo.setOea(i);								
+								int cnt = dao.update(vo);							
+								if(cnt>0) {
+									status.setText("정상적으로 수정되었습니다.");
+								}else {
+									status.setText("수량과 주문금액은 숫자만 입력이 가능합니다.");
+								}								
+							}
+							
+						}catch(Exception ex){
+							ex.printStackTrace();
 						}
 						
-					}catch(Exception ex){
-						ex.printStackTrace();
 					}
 				}
 			});
