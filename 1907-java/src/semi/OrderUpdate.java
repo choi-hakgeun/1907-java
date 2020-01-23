@@ -27,6 +27,7 @@ public class OrderUpdate extends JInternalFrame {
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");	
 	
+	int oNum;
 	
 	private JLabel lblOrderHistoryList;
 	private JScrollPane scrollPane;
@@ -285,20 +286,32 @@ public class OrderUpdate extends JInternalFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					OrderVo vo = new OrderVo();	
 					
-					try {
-						vo.setoNum(Integer.parseInt(toNum.getText()) );
-						vo.setmId(tmId.getText() );	
-						vo.setoDate(sdf.parse(toDate.getText()) );
-						vo.setoName(toName.getText());
-						vo.setOea(Integer.parseInt(toea.getText()) );
-						vo.setoPrice(Integer.parseInt(toPrice.getText()) );
-						
-						int cnt = dao.update(vo);
-						
-						if(cnt>0) {
-							status.setText("수정이 정상적으로 완료되었습니다.");
-						}else {
-							status.setText("수정중 오류가 발생하였습니다.");
+					if(tmId.getText().equals("") && toName.getText().equals("") // 공백체크 
+					  && toea.getText().equals("") && toPrice.getText().equals("")) {
+						status.setText("수정 내용 중 공백이 있습니다.");
+					}else {
+						try {
+							vo.setmId(tmId.getText() );	
+							vo.setoDate(sdf.parse(toDate.getText()) );
+							vo.setoName(toName.getText());						
+							
+							vo.setoPrice(Integer.parseInt(toPrice.getText()) );
+							
+							int i = Integer.parseInt(toea.getText());//수량 2자리 체크
+							if(i > 99) {
+								status.setText("수량은 두자리까지 수정이 가능합니다.");
+							}else {
+								vo.setOea(i);								
+								int cnt = dao.update(vo);							
+								if(cnt>0) {
+									status.setText("정상적으로 수정되었습니다.");
+								}else {
+									status.setText("수량과 주문금액은 숫자만 입력이 가능합니다.");
+								}								
+							}
+							
+						}catch(Exception ex){
+							ex.printStackTrace();
 						}
 						
 					}catch(Exception ex){
@@ -339,6 +352,21 @@ public class OrderUpdate extends JInternalFrame {
 	}
 	private JLabel getStatus() {
 		if (status == null) {
+			status = new JLabel("\uC8FC\uBB38\uBC88\uD638\uB97C \uAC80\uC0C9\uD558\uC5EC \uC8FC\uC138\uC694.");
+			status.setOpaque(true);
+			status.setHorizontalAlignment(SwingConstants.CENTER);
+			status.setBackground(new Color(175, 238, 238));
+			status.setBounds(322, 295, 250, 66);
+		}
+		return status;
+	}
+	private JTable getTable() {
+		if (table == null) {
+			table = new JTable();
+		}
+		return table;
+	}
+}
 			status = new JLabel("\uC8FC\uBB38\uBC88\uD638\uB97C \uAC80\uC0C9\uD558\uC5EC \uC8FC\uC138\uC694.");
 			status.setOpaque(true);
 			status.setHorizontalAlignment(SwingConstants.CENTER);
