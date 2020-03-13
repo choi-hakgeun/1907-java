@@ -5,14 +5,14 @@ import java.util.Scanner;
 public class ArrayExam4 {
 	String[] n = new String[10];
 	int[][] s = new int[10][2];
-	int count = 0; //¹è¿­¿¡ ÀÔ·ÂµÈ ÀÚ·áÀÇ °³¼ö
+	int count = 0; //ë°°ì—´ì— ì…ë ¥ëœ ìë£Œì˜ ê°œìˆ˜
 	
-	//»ı¼ºÀÚÀÇ ¿ªÇÒÀº ¹«ÇÑ·çÇÁ¸¦ µ¹¸é¼­ ¸Ş´º¸¦ Ãâ·Â, ½ºÅÜ±¸Á¶
+	//ìƒì„±ìì˜ ì—­í• ì€ ë¬´í•œë£¨í”„ë¥¼ ëŒë©´ì„œ ë©”ë‰´ë¥¼ ì¶œë ¥, ìŠ¤í…êµ¬ì¡°
 	ArrayExam4(){
 		Scanner scanner = new Scanner(System.in);
 		boolean run = true;
 		
-		//»ùÇÃ¿ë µ¥ÀÌÅÍ¸¦ ¹è¿­¿¡ ÀúÀå
+		//ìƒ˜í”Œìš© ë°ì´í„°ë¥¼ ë°°ì—´ì— ì €ì¥
 		n[0] = "kim";
 		n[1] = "hong";
 		n[2] = "park";
@@ -26,9 +26,9 @@ public class ArrayExam4 {
 		
 		while(run) {
 			System.out.println("-----------------------------------------");
-			System.out.println("1.ÀÔ·Â | 2.¼öÁ¤ | 3. Á¶È¸ ¹× Ãâ·Â 4.Á¾·á");
+			System.out.println("1.ì…ë ¥ | 2.ìˆ˜ì • | 3. ì¡°íšŒ ë° ì¶œë ¥ 4.ì¢…ë£Œ");
 			System.out.println("-----------------------------------------");
-			System.out.println("¸Ş´º¼±ÅÃ : ");
+			System.out.println("ë©”ë‰´ì„ íƒ : ");
 			int menu = scanner.nextInt();
 			/* if( menu ==1 ) input()
 			 * else if( menu ==2 )modify()
@@ -49,9 +49,9 @@ public class ArrayExam4 {
 				break;
 			}//-----------------------------switch end			
 		}//---------------------------------while end
-		System.out.println("ÇÁ·Î±×·¥ÀÌ Á¾·á µÇ¾ú½À´Ï´Ù.");
+		System.out.println("í”„ë¡œê·¸ë¨ì´ ì¢…ë£Œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	}
-	//ÇĞ»ıÀÇ ¼ºÀû Á¤º¸¸¦ ¹è¿­¿¡ ÀÔ·Â
+	//í•™ìƒì˜ ì„±ì  ì •ë³´ë¥¼ ë°°ì—´ì— ì…ë ¥
 	public void input() {
 		Scanner scanner = new Scanner(System.in);
 		String name = "";
@@ -60,18 +60,18 @@ public class ArrayExam4 {
 		int tot = 0;
 		double avg = 0;
 		
-		System.out.print("¼º¸í : ");
+		System.out.print("ì„±ëª…  : ");
 		name = scanner.nextLine();
-		System.out.print("±¹¾î : ");		
+		System.out.print("êµ­ì–´ : ");		
 		kor = scanner.nextInt();
-		System.out.print("¿µ¾î : ");
+		System.out.print("ì˜ì–´ : ");
 		eng = scanner.nextInt();
 		
 		tot = kor+eng;
 		avg = (double)tot/2;
 		
-		System.out.println("ÃÑÁ¡ : " + tot);
-		System.out.println("Æò±Õ : " + avg);
+		System.out.println("ì´ì  : " + tot);
+		System.out.println("í‰ê·  : " + avg);
 		
 		n[count] = name;
 		s[count][0] = kor;
@@ -79,57 +79,57 @@ public class ArrayExam4 {
 		count++;
 	    
 	}
-	//ÇĞ»ıÀÇ ¼ºÀû Á¤º¸¸¦ ¼öÁ¤
+	//í•™ìƒì˜ ì„±ì  ì •ë³´ë¥¼ ìˆ˜ì •
 	public void modify() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("°Ë»öÇÒ ¼º¸íÀº?");
+		System.out.print("ê²€ìƒ‰í•  ì„±ëª…ì€?");
 		String modiName = scanner.nextLine();
 		int kor = 0;
 		int eng = 0;
 		
 		for(int i = 0 ; i < count ; i++) {
 			if(n[i].equals(modiName)) {
-				System.out.println("¼º¸í : " + n[i]);
-				System.out.println("±¹¾îÁ¡¼ö : " + s[i][0]);
-				System.out.println("¿µ¾îÁ¡¼ö : " + s[i][1]);
+				System.out.println("ì„±ëª… : " + n[i]);
+				System.out.println("êµ­ì–´ì ìˆ˜ : " + s[i][0]);
+				System.out.println("ì˜ì–´ì ìˆ˜ : " + s[i][1]);
 				
-				System.out.println("¼öÁ¤ÇÒ ±¹¾î¼ºÀûÀ» ÀÔ·ÂÇÏ¼¼¿ä");
-				System.out.println("±¹¾î : ");
+				System.out.println("ìˆ˜ì •í•  êµ­ì–´ì„±ì ì„ ì…ë ¥í•˜ì„¸ìš”.");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ : ");
 				
 				s[i][0] = scanner.nextInt();
 				kor = s[i][0];
 				
-				System.out.println("±¹¾î  " + kor);				
-				System.out.println("¼öÁ¤ÇÒ ¿µ¾î¼ºÀûÀ» ÀÔ·ÂÇÏ½Ã¿À");
-				System.out.println("¿µ¾î : ");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½  " + kor);				
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î¼ºï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï½Ã¿ï¿½");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ : ");
 				
 				s[i][1] = scanner.nextInt();
 				eng = s[i][1];
 				
-				System.out.println("¿µ¾î " + eng);
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ " + eng);
 				System.out.println("------------------------");
-				System.out.println("¼öÁ¤µÈ ¼ºÀû");
-				System.out.println("±¹¾î : " + s[i][0]);
-				System.out.println("¿µ¾î : " + s[i][1]);
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ : " + s[i][0]);
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ : " + s[i][1]);
 			}//if end
 		}//for end
-		//1. ¼öÁ¤ÇÒ ÇĞ»ı¸íÀ» ÀÔ·Â¹Ş¾Æ °Ë»ö
-		//2. °Ë»öµÈ Á¤º¸¸¦ Ç¥½Ã
-		//3. ¼öÁ¤
-		//4. ¹è¿­ Á¤º¸ ¼öÁ¤
+		//1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·Â¹Ş¾ï¿½ ï¿½Ë»ï¿½
+		//2. ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
+		//3. ï¿½ï¿½ï¿½ï¿½
+		//4. ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 	}
-	//ÇĞ»ıÀÇ ¼ºÀû Á¤º¸¸¦ Á¶È¸ ¹× Ãâ·Â
+	//ï¿½Ğ»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public void search() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.print("°Ë»öÇÒ ¼º¸íÀº?");
+		System.out.print("ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?");
 		String findName = scanner.nextLine();
 		int tot = 0;
 		double avg = 0;
 		
 		for(int i = 0; i < count ; i++) {
 			if(n[i].equals(findName) || findName.equals("")) {
-				//ÃÑÁ¡°ú Æò±ÕÀ» °è»êÇÏ¿© Ãâ·Â
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½
 				tot = s[i][0]+s[i][1];
 				avg = (double)tot/2.0;
 				
@@ -138,8 +138,8 @@ public class ArrayExam4 {
 				System.out.println(s[i][1] + "  " );
 				
 				
-				System.out.println("ÃÑÁ¡ : " + tot);
-				System.out.printf("Æò±Õ : %5.1f",avg);
+				System.out.println("ï¿½ï¿½ï¿½ï¿½ : " + tot);
+				System.out.printf("ï¿½ï¿½ï¿½ : %5.1f",avg);
 				System.out.println();				
 			}
 			
